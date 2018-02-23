@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HSPC SIGCSE Workshop</title>
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="reveal.js/css/theme/black.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section data-markdown id="cover"><script type="text/template">
+## Workshop 306: Organizing a High School Programming Contest
+&nbsp;
+# SIGCSE 2018
+&nbsp;
+<center><small>[Aaron Bloomfield](http://www.cs.virginia.edu/~asb), Blythe Samuels, Andrew Norton</small></center>
+<center><small>Repository: [github.com/aaronbloomfield/hspc](http://github.com/aaronbloomfield/hspc) / <a href="?print-pdf"><img class="print" width="20" src="images/print-icon.png"></a></small></center>
+  </script></section>
+
+      <section data-markdown id="schedule"><script type="text/template">
+## Schedule
+- [Lecture: Introduction](#/intro)
+- [Lecture: Problem difficulty](#/problemslec)
+- [Hands-on: Problem Generation](#/problemsgen)
+- Break
+- [Lecture: Submission systems](#/submissionlec)
+- [Hands-on: Submission systems](#/submissionact)
+- [Lecture: Logistics](#/logisticslec)
+- Break
+- [Hands-on: Contest participation](#/contest)
+- [Wrap-up](#/wrapup)
+- [Conclusions](#/conclusions)
+      </script></section>
+
+
+      <section>
+      
+      <section data-markdown class="titlepage" id="intro"><script type="text/template">
+# Lecture: Introduction
+
+(15 min: 7:00-7:15)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Welcome!
+- This workshop will go over how to run a high school programming contest
+  - ... but can be applied to contests at the collegiate level as well
+
+
+## Motivation
+> I'm particularly passionate about working on ... UVa HSPC ... because one of my friends from my high school did it and his experience was what made me decide to apply to UVa SEAS for computer science
+
+- A UVa female 4th year (senior), about to graduate with a BS in Computer Science
+      </textarea></section>
+
+<section>
+  <h2>Who we are</h2>
+  <table class="whoweare">
+    <tr>
+      <td><img src="images/blythe.png" alt="blythe"></td>
+      <td><img src="images/andrew.png" alt="andrew"></td>
+      <td><img src="images/aaron.png" alt="aaron"></td>
+    </tr>
+<tr>    
+  <td>Blythe Samuels</td>
+  <td>Andrew Norton</td>
+  <td>Aaron Bloomfield</td>
+</tr>
+<tr style="font-size:0.8em">    
+  <td>Computer Science teacher at <a href="https://sites.google.com/a/powhatan.k12.va.us/phs/">Powhatan High School</a></td>
+  <td>Software Engineer at Capital One, former student (and contest director) at <a href="http://www.virginia.edu">UVa</a>, and former UVa HSPC contestant</td>
+  <td>Computer Science professor at the <a href="http://www.virginia.edu">University of Virginia</a></td>
+</tr>
+</table>
+</section>
+
+
+<section data-markdown data-separator="^\n$"><textarea data-template>
+## Materials
+- The materials for this workshop are available online:
+  - Github: https://github.com/aaronbloomfield/hspc (public repo)
+  - As HTML: http://aaronbloomfield.github.io/hspc
+- Feel free to suggest or submit changes and updates!
+
+
+## Repository contents
+- All this is listed in the [main readme](readme.html)
+- This slide set
+- An hspcguide.pdf file (from LaTeX) which details much of how to run such a contest
+- Various tools and scripts for contest preparation tasks
+  - Not all are ready yet, but will be soon...
+- Miscellaneous materials
+  - Including the [UVa HSPC 2017 problem set](misc/uva-hspc-2017-contest.pdf) and that contest's [solutions and judging data](misc/uva-hspc-2017-problems.zip)
+
+
+## Strategy resources
+- These are more aimed at the collegiate level
+- [Programming Challenges](https://www.amazon.com/dp/0387001638/) by Steven Skiena (also [available as a PDF](https://www.google.com/search?q=programming+challenges+pdf))
+- [A Programming Contest Strategy Guide](https://dl.acm.org/citation.cfm?id=2844632) from SIGCSE '16 (by Aaron Bloomfield)
+<table>
+  <tr style="background-color: transparent;">
+    <td><img style="height:300px" alt="programming challenges book" src="images/pc-book-cover.jpg"></td>
+    <td><img style="height:300px" alt="pc strategy article" src="images/pc-strategy-article.png"></a></td>
+</tr>
+</table>
+
+
+## UVa's HSPC: history
+- Started as an outgrowth from our interest in ICPC
+  - And from our success in making it to the world finals
+- Our first contest in 2011 had only 3 teams (12 students!)
+- On March 17th, 2018, we will have over 60 teams (about 250 students) attend
+
+
+## UVa's 1st HSPC (2011)
+In 2011 we had 3 teams (12 students) attend
+![uva hspc in 2011](images/uva-hspc-2011-pic.jpg)
+
+
+## UVa's 7th HSPC (2017)
+In 2017 we had ~50 teams (~200 students!) attend
+![uva hspc in 2011](images/uva-hspc-2017-pic.jpg)
+
+
+## T-shirt Backs
+We have always had custom art for the t-shirt backs:
+![uva hspc tshirts](images/tshirt-collage.png)
+
+
+## Balloons
+And custom balloon colors
+![uva hspc balloons](images/uva-hspc-balloons.jpg)
+Apparently custom inked balloons do not last...
+
+
+## Online or in person?
+- Some contests are run online
+  - Virginia Tech has done this quite well: https://icpc.cs.vt.edu/#/hscontest
+- Many high school contests are in person
+  - More logistics to deal with...
+
+
+## Challenges we've faced
+- Obtaining funding
+- Logistics for 300+ people
+- Contest submission systems
+- Problem generation
+- Outgrowing our computer labs
+
+
+## Things only you can decide
+- Contest: online or in person?
+- If in person, how many teams?
+- Who runs it: faculty, staff, students, or a mix?
+- Budgeting issues?
+</textarea></section>
+      
+      </section>
+
+	  
+      <section>
+	
+      <section data-markdown class="titlepage" id="problemslec"><script type="text/template">
+# Lecture: Problem difficulty
+
+(20 min: 7:15-7:35)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Student demographics
+- Allowing more than one team per school can help increase participant diversity
+- Girls are just as interested as boys to learn advanced programming techniques and to improve their experiences in class
+- The competition allows students to practice their problem solving and programming when grades are not on the line
+
+
+## Three Levels of Experience
+- Beginner
+  - Introductory CS courses with Algebra 1 & Geometry
+- Intermediate
+  - APCS-A with Algebra 2 & Math Analysis
+- Advanced
+  - Data Structures with Calculus & Discrete Math
+
+
+## Challenge vs. Skill
+It is important to balance the challenge of the questions with the skills of the students ([image source](http://fireside.gamejolt.com/post/understanding-the-flow-channel-in-game-design-ghuttxg6))
+![flow channel](images/flow-channel.png)
+
+
+## Beginner Programmer Skills
+- Math skills: geometry & algebra
+  - Geometric & algebraic formulas: distance, slope, midpoint, linear and quadratic function analysis
+  - 2-dimensional shapes (triangles, circles, rectangles): area, perimeter, trig ratios
+  - 3-dimensional shapes (cubes, pyramid, cones, cylinder, spheres): area, perimeter, surface area, and volume
+
+
+## Beginner Programmer Skills
+- Computer science skills: Python & Java
+  - Loops and conditional testing
+  - String analysis & manipulation: decoding & encoding messages
+  - 1D arrays
+  - Simple output formatting
+
+
+## Intermediate Programmer Skills
+- Math skills: math analysis & statistics
+  - Trigonometry functions: right triangle, unit circle, identities, law of sines, cosines and tangents
+  - Advanced algorithms: data analysis, probability, simulations, sampling and experimentation
+
+
+## Intermediate Programmer Skills
+- Computer science skills: Java & C++
+  - ArrayLists
+  - 2D arrays 
+  - Recursive programming
+  - String manipulation
+  - Using classes to solve problems
+
+
+## Advanced Programmer Skills
+- Math skills: discrete math & calculus
+  - Discrete math: logic and Boolean algebra, set and number theory, counting and discrete probability, matrices, and graph theory
+  - Calculus: limits, derivatives, integrals, optimization, physics, and modeling applications, and analytical geometry
+
+
+## Advanced Programmer Skills
+- Computer science skills: Java & C++
+  - Advanced data structures
+  - Linked lists, queues, binary trees, and recursive data structures
+  - Basic algorithms (some from a collegiate level algorithms course)
+
+
+## UVa HSPC 2012 problems
+![uva hspc 2012](images/uva-hspc-2012.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## UVa HSPC 2013 problems
+![uva hspc 2013](images/uva-hspc-2013.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## UVa HSPC 2014 problems
+![uva hspc 2014](images/uva-hspc-2014.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## UVa HSPC 2015 problems
+![uva hspc 2015](images/uva-hspc-2015.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## UVa HSPC 2016 problems
+![uva hspc 2016](images/uva-hspc-2016.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## UVa HSPC 2017 problems
+![uva hspc 2017](images/uva-hspc-2017.png)
+![uva hspc legend](images/uva-hspc-legend.png)
+
+
+## Analysis of 2017 UVA HSPC
+- The [full scoreboard](http://acm.cs.virginia.edu/hspc/scoreboards/2017/) can be viewed online
+- Beginner
+  - Completed 1 to 4 programs (A, B, C, and I)
+- Intermediate 
+  - Completed 2 programs within first 20 minutes
+  - Completed 5 to 7 programs (A, B, C, D, F, G, and I)
+- Advanced
+  - Completed between 3 to 5 programs in first 45 minutes
+  - Top 2 teams completed all programs
+
+
+## Creating Questions for All Levels
+- Create at least 4 questions for the beginner level programmers
+  - These questions will be a race for the intermediate & advanced levels
+  - You want beginner teams to be able to participate
+    - Give the beginners a chance to complete some programs
+    - Worst case is having a team that does not make a submission
+
+
+## Questions for Beginner Programmers
+- Basic algorithms
+  - Provide concrete directions that are easy to understand
+  - Provide formulas in the problem description
+  - Questions involve evaluating and manipulating numbers and strings without the need for an array or class
+
+
+## Questions for Intermediate Programmers
+- Advanced algorithms
+  - Provide directions that are representational allowing students to apply their skills in a new situation
+  - Include questions that involve sorting numbers and strings
+  - Include questions that require the use of collections: 1D arrays, 2D arrays, lists, hashmaps
+
+
+## Questions for Advanced Programmers
+- College-level problems
+  - Provide abstract directions to allow students to design and develop a solution requiring higher level thinking
+  - Provide questions that require advanced algorithm design and development
+  - Provide questions that require advanced data Structures: nodes, queues, sets
+
+
+## Where can you start?
+- Existing HSPC problem sets (UVa,
+  [VT](https://icpc.cs.vt.edu/#/hscontest), and others)
+- KATTIS has problems and contests (more on this later)
+- [ACM-ICPC Live Archive](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8)
+  (college-level questions)
+  - Review the released questions to use as examples
+  - Rewrite the questions to include the given theme and to fit the
+    skills of all levels of high school students
+
+
+## Problem Parts
+- Plot or story (optional)
+- Problem description
+- Input description
+- Output description
+- Sample input
+- Sample output
+- Judging input and output (not given to the contestants)
+- Solutions (also not given to the contestants)
+
+
+## Things to keep in mind
+- Avoid having them have to test for end-of-file
+- Having only ONE solution will make your life easier
+- Tricky white space can often hinder some students
+    - If the numbers are space separated, should there be a space after the last one on the line?
+    - Submission systems can ignore white space as well
+
+      </textarea></section>
+      
+      </section>
+
+      <section>
+
+	<section data-markdown class="titlepage" id="problemsgen"><script type="text/template">
+# Hands-on: Problem Generation
+
+(25 min: 7:35-8:00)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Recall the Problem Parts
+- Problem description, including optional plot/story
+- Formal input and output description
+- Sample input and output
+- Parts not provided to the contestants:
+  - Judging input and output
+  - Solutions
+
+
+## Activity
+- Generate one contest problem
+  - Including at least one solution
+- Submit your problem at either (same link):
+  - https://libra.cs.virginia.edu/hspcwks/
+  - http://tinyurl.com/yblmkyrh
+- You can edit and revise your submission
+  - Just keep the problem ID the same
+- All text format is with *Markdown*
+  - See reference [here](https://daringfireball.net/projects/markdown/syntax)
+- LaTeX-style equations can be entered with surrounding dollar signs
+      </textarea></section>
+
+      </section>
+
+      <!-- ============================================================ -->
+      
+      <section data-markdown class="titlepage"><script type="text/template">
+# Break
+
+(10 min: 8:00-8:10)
+      </script></section>
+
+<section>
+
+      <section data-markdown class="titlepage" id="submissionlec"><script type="text/template">
+# Lecture: Submission systems
+
+(20 min: 8:10-8:30)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Submission system goals
+- Allow submission and execution of the contestants' problems
+- Allow for efficient judging (automated or manual)
+- Allow for easy viewing of the scores
+- Do not crash and ruin the contest
+
+
+## Judging Results
+- Yes / Correct ("AC")
+- Many possible incorrect responses:
+  - Compilation Error ("CE")
+  - Run-time Error ("RTE")
+  - Time Limit Exceeded ("TLE")
+  - Wrong Answer ("WA")
+  - Excessive Output ("EO")
+  - Output Format Error ("OFE")
+  - Other - Contact Staff ("OCS")
+- Not all are available on all systems / contests
+
+
+## Options
+- Use a pre-made one; most common options:
+  - KATTIS
+  - DOMjudge
+  - PC<sup>2</sup>
+- Build your own
+  - UVa and VT do this
+- We'll talk about all the options, but focus on PC<sup>2</sup>
+
+
+## KATTIS
+- Originally developed by [KTH Royal Institute of Technology](https://www.kth.se/en) in Stockholm, Sweden
+- Commercial system online at http://www.kattis.com and http://open.kattis.com
+- It's a software-as-a-service that (generally) cannot be run locally
+
+
+## KATTIS Pros
+- By far the most refined system
+- Easy to log on and practice problems
+
+
+## KATTIS Cons
+- Most problems are aimed towards collegiate level
+- One cannot create a contest of your own problems without their help
+  - And they are often non-responsive to emails
+  - Due to this, it's hard to run one's own contest this way
+
+
+## DOMjudge
+- Open source (GPL) system hosted at https://github.com/DOMjudge/domjudge/
+- The ICPC world finals runs this since 2012
+
+
+## DOMjudge Pros
+- Open source system
+- Still being actively developed and debugged
+- Stable enough to be used in the world finals
+
+
+## DOMjudge Cons
+- Fewer people use it for various reasons
+- Must run on a Linux system
+
+
+## Customized submission system
+- Have a lot of free time?
+- Do you have a lot of students looking to develop a project?
+- Do you want to maintain a system forever?
+- We have a solution!
+
+
+## Customized system Pros
+- You can make it act however you want
+- You can run it on your own machines
+
+
+## Customized systems Cons
+- That whole software maintenance thing
+- Unless you have 6 full time developers, you will not be able to overcome KATTIS' development
+- There are *SO* many corner cases to deal with
+  - And how do you secure the program executions?
+- How to monetize?
+
+
+## PC$^2$
+- A free (but not open source) system online at https://pc2.ecs.csus.edu/
+- Still the most commonly used system
+  - Although that share is decreasing
+- Runs on Java
+- It's been around since 1989 (Pascal version)
+
+
+## PC$^2$ Pros
+- You can run it on your own system
+- Lots of people have experience using it
+- It runs on Java, so can run anywhere
+
+
+## PC$^2$ Cons
+- *SO MANY BUGS*
+- It runs on Java, which means compatibility issues
+- Rather annoying to configure properly
+
+
+## PC$^2$ can kill a contest
+- 2014 UVa HSPC: A problem "copy" does not copy properly, and prevents any type of automated judging of the problem
+- 2016 mid-Atlantic ICPC
+  - A "web connector" was used, which forks a thread for each connecting team
+  - But apache2 limits it's sub-processes to 50 threads by default
+  - Not good for a 200 team contest...
+
+
+## PC$^2$: the system that everybody loves to hate
+- People use PC<sup>2</sup> because:
+  - Inertia and experience
+  - Wanting to run a system themselves
+- It works well, when it works
+- We'll be using it today
+
+
+## PC$^2$
+- Available as freeware from https://pc2.ecs.csus.edu/
+  - Developed by California State University, Sacramento (CSUS)
+- Documentation on that site as well
+  - https://pc2.ecs.csus.edu/pc2docs.html
+- Make sure you get version 9.5.3 for this workshop!
+- Details about all of this are in the hspcguide.pdf in this repo
+
+
+## PC$^2$ Model
+- One server
+  - Only in charge of centralizing the communication; does no other work
+- Many clients (as .bat files under Windows)
+  - pc2team: team login, problem submission
+  - pc2admin: administrator interface to configure system
+  - pc2judge: for both automated and manual judging
+  - pc2board: creates the scoreboard
+
+
+## PC$^2$ Model
+- One can run everything on a single machine
+  - As we will do in the hands-on shortly
+- Contests usually separate them:
+  - One judge to automatically judge each problem
+  - One team per computer
+  - One server to rule them all
+
+
+## PC$^2$ concepts: Profiles
+- A Profile is a series of settings that can be switched between
+- For example, the practice contest and the full contest
+  - Different problems, different scoreboard, etc.
+
+
+## pc2v9.ini
+```
+# pc2v9.ini - settings for pc2
+
+[client]
+
+# Site 1
+server=localhost:50002
+# Site 2
+#server=localhost:51002
+
+[server]
+
+# For site 2 and Site 3
+#remoteServer=localhost:50002
+```
+- The only line that matters is the `server=...` line
+  - We'll keep it at `localhost` for now, but change it later
+
+
+## PC$^2$ logins
+- All the programs have the same login screen:
+![pc2 login](images/pc2/login.png)
+
+
+## pc2server
+- Run the gui: `pc2server &` or `pc2server.bat` (in the bin/ directory)
+  - Use site1/site1 as the login
+  - Then enter `foobar` as the contest password (twice)
+- Run headless in Linux: 
+  ```
+nohup pc2-9.2.4/bin/pc2server --nogui --login site1 \
+    --password site1  --contestpassword foobar \
+    | tee server.out &
+```
+- Almost nothing is done via the server interface
+
+
+## Contest accounts
+- Other than site1, one admin account is created
+  - Login: administrator1/administrator1
+- Other accounts can be created via the admin interface
+  - Default logins: team5/team5, judge7/judge7, etc.
+- You can save the files in a .csv file with custom passwords and display names
+  - But you have to generate the accounts before you load that file!
+  - And the file is tab-separated, not comma-separated
+
+
+## pc2admin: configuration
+![pc2 login](images/pc2/pc2admin-config.png)
+
+
+## PC$^2$ Auto-judging
+- PC<sup>2</sup> does not always correctly auto-judge problems
+  - Does not always detect crashes properly
+  - We recommend auto judge w/manual review:
+![pc2 problem judging](images/pc2/pc2admin-judging.png)
+
+
+## PC$^2$ Auto-judging
+- To enable auto judging (with our without manual review):
+  - Create the problem (pc2admin -> Configure contest -> Problems)
+  - Configure one judge to auto-judge that problem (pc2admin -> Configure contest -> Auto judge)
+    - And be sure to click the auto-judging box!
+  - Log in that auto-judge
+    - Ideally on a separate computer
+
+
+## pc2admin: contest execution
+![pc2 login](images/pc2/pc2admin-runs.png)
+- pc2judge has a similar interface to the Runs tab shown here
+
+
+## PC$^2$ Tips & Tricks
+- The default output size is small (512 Kb)
+  - If your judging output is larger, change this (else "correct" solutions will be marked as WA)
+  - This is in pc2admin -> Configure contest -> Settings
+- Clarify language versions and options:
+  - Be sure to differentiate between Python 2 and 3, if you offer both
+  - Clarify if you are adding the `--std=c++11` flag for C++
+  - Clarify the Java version
+
+
+## PC$^2$ Annoyances
+- One cannot extract a problem unless it is executed on *that* machine
+- Problem copying does not always work
+- Increasing the setting for output size
+
+
+## pc2board
+- It writes a html/ directory with the scoreboard files
+- Updates the .html files whenever an event fires
+![pc2board](images/pc2/pc2board.png)
+
+
+## Contest scoreboards
+- PC<sup>2</sup> creates an [okay scoreboard](misc/uva-hspc-2017-scoreboard.html)
+  - This is UVa's 2017 HSPC contest scoreboard
+- DOMjudge has a [nicer scoreboard](https://www.domjudge.org/demoweb-ui/public/)
+  - This is their demo scoreboard
+- KATTIS has the [nicest scoreboard](http://www.icpc-midcentral.us/reports/mcpc16.kattis.com/standings/standalone.html)
+  - This was from the 2017 Mid-Central ICPC contest (collegiate level)
+- The information that each system shows on a scoreboard is all the same
+</textarea></section>
+	  
+	  </section>
+
+<section>
+  
+      <section data-markdown class="titlepage" id="submissionact"><script type="text/template">
+# Hands-on: Submission systems
+
+(20 min: 8:30-8:50)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Install and run PC$^2$
+- Use the [UVa HSPC 2017 problem set](misc/uva-hspc-2017-contest.pdf)
+  - In [this archive](misc/uva-hspc-2017-problems.zip) or online at http://acm.cs.virginia.edu/hspc.php
+    - On the left, under "are there any sample problems available
+  - Once running, log in as a team, submit some solutions (to the correct problem or not)
+  - Then judge them!
+      </textarea></section>
+
+</section>
+
+      <section>
+	
+      <section data-markdown class="titlepage" id="logisticslec"><script type="text/template">
+# Lecture: Logistics
+
+(20 min: 8:50-9:10)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## HSPC Guide
+- Part of this section is the [HSPC Guide](guide/hspcguide.pdf)
+  - Logistics details are all therein
+  - Mostly written, and expected to be completed by the end of March
+
+
+## Registration
+- One option is to create a customized system
+- We have been using Google Forms
+  - Other options: SurveyMonkey, SignupGenius, etc.
+- We limit schools to 3 teams each
+
+
+## Payment
+- Charge too much, and high schools can't send many students
+- Charge too little and people will sign up who are not serious about attending
+- We charge $40 per team
+  - Our contests typically cost $140 per team...
+
+
+## Typical full-day schedule
+- 8:00-9:30: Registration
+- 9:30-10:30: Introduction, rules, and questions
+- 10:30-11:30: Practice contest with coaches
+- 11:30-12:30: Lunch
+- 12:30-4:30: Full contest
+- 5:00-5:30: Awards ceremony and wrap-up
+
+
+## Volunteers
+- Recruit lots of them!
+  - Two or three to manage each room (depending on size)
+  - Some to manage food, printing, balloons, registration, judging, clean-up
+  - List of all roles is in the contest guide
+- We would need about 50 volunteers at UVa
+  - We had 50 teams and 4 computer labs
+  - They signed up for 2 hour shifts
+
+
+## T-shirts
+- This adds to the expense, but is always appreciated
+- Be sure to get that order in early!
+![uva hspc tshirts](images/tshirt-collage.png)
+
+
+## Folder Handouts
+- Given out during registration (along with their t-shirts)
+- Contents:
+  - Welcome letter
+  - Map of the various locations
+  - Participation certificates
+  - Login credentials
+  - Name tags (if not separate)
+  - Cheat sheets: see next slide
+
+
+## Programming Cheat Sheets
+- We have one for each language
+- They are included in this repo in the [cheatsheets/](cheatsheets/) directory
+- They are a reference for the students on programming basics and how to compile
+- We provide digital copies in addition to paper
+
+
+## Food
+- We usually have bagels, cream cheese, and coffee for when they arrive
+- Lunch is catered; we've tried from various places (typical cost: $10 per person)
+- You will have to ask about dietary restrictions in the registration
+
+
+## Preparation Schedule
+- Fall: Set date, problem creation, funding, and room reservation
+- Spring (early): Call for volunteers
+- 1-2 months prior: Order t-shirts and arrange food
+- 2-3 weeks prior: Purchase prizes
+- Week of contest: Material printing, virtual box image test, and possible practice contest.
+- Night before: Folder preparation, name tags, etc.
+- Morning of Contest: put up signs, load VB images onto computers.
+
+
+## Welcome talk
+- We have one for you!
+  - It's based on the one that the mid-Atlantic ICPC region uses
+- It's [welcome.html](welcome.html#/) in the repo
+- You will have to edit it for your institution
+
+
+## Communication
+- How will the contest organizers communicate with each other?
+- We used walkie-talkies
+- Other options:
+  - Slack or cell phone apps (not always reliable)
+  - Runners
+  - Smoke signals
+
+
+## Internet access
+- Internet needs to be turned off
+  - But they have to be able to access: the submission system, the scoreboard, cheat sheets, and the programming language documentation
+- This can all be done under Linux with iptables
+  - Or your sysadmin can do this for you
+
+
+## Computers
+- We have students use a VirtualBox setup
+  - This provides a consistent setup
+  - This is already configured, and Internet is turned off appropriately
+  - See the "VirtualBox image configuration" chapter in the [HSPC Guide](guide/hspcguide.pdf)
+- This means some students are running Linux on VirtualBox on Linux...
+
+
+## Printing
+- One computer per team makes debugging difficult!
+- Allowing teams to print copies of their code eases this process
+- This generates the need for "print runners" in addition to balloon runners
+- We have a printing tool available on the [tools](tools/readme.html) page
+
+
+## Programming languages
+- Typical options are: C, C++, Java, and Python 2/3
+  - Few high school students use C or C++
+  - Standard library access only (e.g. no Boost or numpy)
+- Goals:
+  - Provide as many options as the students would like to use
+  - Prevent any one problem from being easy or hard to solve in one given language
+
+
+## Awards
+- We purposely avoided giving money
+- Our aim was:
+  - 1st place: $80-100 prize each
+  - 2nd place: $60-80 prize each
+  - 3rd place: $50 prize each
+  - 4th place: $20-30 prize each
+  - 5th place: $10-15 prize each
+- This all costs about $1,000
+
+
+## Evaluations
+1. Attendee type (coach, contestant, staff, or team guest).
+2. Best day / date for year’s contest.
+3. Opinions on problem difficulty? Either general or specific issues.
+4. What did you enjoy most about the contest?  What did you enjoy least?
+5. Would you attend again or recommend this competition to your friends (why/why not)?
+6. Comments or suggestions re: registration process?
+7. Any other comments?
+
+
+## Tools
+- We have a bunch of tools to help create the customized printouts
+  - Invoices for each school
+  - Certificates (participation and placements)
+  - Label sheets
+  - Cover pages
+  - Name tags (including login credentials)
+- They will all be ready soon...
+</textarea></section>
+
+      </section>
+      
+      <section data-markdown class="titlepage"><script type="text/template">
+# Break
+
+(10 min: 9:10-9:20)
+      </script></section>
+
+      <section>
+	
+      <section data-markdown class="titlepage" id="contest"><script type="text/template">
+# Hands-on: Contest participation
+
+(20 min: 9:20-9:40)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Participate in the contest!
+- Using the problems you developed, we will run a short contest
+- Edit your pc2v9.ini -- we'll tell you what to set as the server
+- Everybody will be given a team number to log in as
+      </textarea></section>
+
+      </section>
+      
+
+      <section>
+	
+      <section data-markdown class="titlepage" id="wrapup"><script type="text/template">
+# Wrap-up
+
+(15 min: 9:40-9:55)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Before we continue...
+
+Any questions?
+
+
+## e to the pi Minus pi
+<img src="images/e_to_the_pi_minus_pi.png" title="Also, I hear the 4th root of (9^2 + 19^2/22) is pi." alt="e to the pi Minus pi" />
+<p style="text-align:center"><a href="http://xkcd.com/217">xkcd 217</a></p>
+
+
+## Logo usage
+The following logo is owned by the ICPC Foundation:
+<img alt="icpc hspc logo" src="images/icpc-hspc-logo-image-only.png" style="height:400px">
+(available as a [png](images/icpc-hspc-logo-image-only.png) and [svg](images/icpc-hspc-logo-image-only.svg))
+
+
+## Logo usage
+I made the following, based on the ICPC logo:
+<img alt="icpc hspc logo" src="images/icpc-hspc-logo.png" style="height:500px">
+
+
+## Logo usage
+- I asked if others could use that logo
+  - UVa had been given permission to use it many years ago
+- Their answer:
+  - If you use the ICPC Management system to enter the students and the results, then you can use it
+  - I can connect you with them
+
+
+## Theming of problems
+- A fun way to connect the problem stories
+- Themes we have used:
+  - 2014: Lord of the Rings
+  - 2015: Avengers (the movie had recently come out)
+  - 2016: Breakfast
+  - 2017: Classic Nintendo games
+  - 2018: Pixar movies
+
+
+## Who runs your contest?
+- Some schools are primarily faculty/staff run (UMD)
+- We are primarily student run
+- There still needs to be institution memory (i.e. a faculty member) for:
+  - Advising
+  - Submission system management
+
+
+## Different "Tracks"
+- Some high schools will enter advanced teams
+  - And win all the prizes
+- You can have "tracks"
+  - But how to differentiate?
+  - One option: any team where *all* of the contestants have 1.0 or less years of CS classes are "beginner"; all others are "advanced"
+    - Make sure you tell them this during registration!
+
+
+## Expenses
+- For our 50 team contests:
+  - $3,000 for food (breakfast and lunch)
+  - $2,000 for t-shirts
+  - $1,000 for prizes
+  - $500 for supplies (helium, balloons, folders, name tags, etc.)
+  - $500 for coach gifts
+- Total cost: about $7k
+
+
+## Expenses
+- Things not included:
+  - Communication (walkie-talkies)
+  - Room acquisition
+- If teams pay $40 each...
+  - That covers only $\$$2,000 of the $\$$7,000 expense
+
+
+## Financing
+- Some can be reduced
+  - Prizes, t-shirts
+- Offset some charges
+  - Departments, for example
+- Fund raise
+  - Apply for funding from various sources
+  - Ask your department for money
+
+
+## Coach entertainment
+- Ensure they have wireless access!
+- Consider talks or workshop for them
+- Coach gifts!
+      </textarea></section>
+
+      </section>
+      
+
+      <section>
+	
+      <section data-markdown class="titlepage" id="conclusions"><script type="text/template">
+# Conclusions
+
+(5 min: 9:55-10:00)
+      </script></section>
+
+      <section data-markdown data-separator="^\n$"><textarea data-template>
+## Repository Contents
+- The contents of this repo will be added on within the next month
+- And, hopefully, for many years beyond
+- Please feel free to contribute!
+  - Either by email or via a [github pull request](https://help.github.com/articles/about-pull-requests/)
+
+
+## Let us know how it goes!
+- We would love to hear about how your contests went!
+
+
+## Thank you for coming!
+
+We hope you enjoyed the workshop!
+
+And please fill out the evaluations!
+      </textarea></section>
+
+      </section>
+      
+    </div>
+  </div>
+  <script src="reveal.js/lib/js/head.min.js"></script> 
+  <script src="reveal.js/js/reveal.js"></script>
+  <script src="settings.js"></script> 
+</body>
+</html>

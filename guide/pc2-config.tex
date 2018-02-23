@@ -1,0 +1,285 @@
+As of the 2012 contest (i.e., March 17, 2012), the latest version of
+PC$^2$ was 9.2.1.  There are other contest systems, including KATTIS
+(which is used at many world finals).  However, PC$^2$ is used at the
+regional contests~-- and typically used for local practices~-- so that is what
+we opted to use.
+
+This section assumes that the reader is familiar with PC$^2$.
+
+An ideal way to configure a contest is to launch a server through an
+ssh shell, and have all the other PC$^2$ clients connect to that
+server.
+
+\subsection{Configuration files}
+
+There will be two different versions of the configuration files: one
+on the remote server, and one that all the clients use.  Here is the
+client configuration file:
+
+\begin{verbatim}
+[client]
+server=hostname.domain.edu:50002
+minSecsBetweenUpdate=0
+[server]
+\end{verbatim}
+
+There are many other options in the configuration file~-- such as
+having multiple sites~-- but we did not need them.  The {\tt server}
+line specifies the server and port to connect to.  For the
+configuration file on the remote server, just change the hostname from
+{\tt hostname.domain.edu} to {\tt localhost}.  The {\tt
+minSecsBetweenUpdate} line forces the various clients (such as the
+scoreboard) to immediately write the updated scoreboard files to the
+disk, rather than buffering them for a period of time.
+
+\subsection{Pre-configuring PC$^2$}
+
+PC$^2$ can be pre-configured, and the configuration files moved over
+to the server that is actually running the contest.  This makes it
+easy to configure it locally, and then upload the files to the remote
+server.
+
+When you run pc2server (see next section), there are two directories
+created (logs/ and profiles/) and one file (profiles.properties).  The
+logs directory need not be preserved, unless you want to maintain a
+log of your PC$^2$ configuration.
+
+In the profiles/ directory, there will be a directory with a random
+name (such as 'P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/').  And in there
+are a number of files and directories:
+
+\begin{itemlist}
+\item db.1/
+\item logs/
+\item packets/
+\item pc2.startup-0.log
+\item pc2.startup-0.log.lck
+\end{itemlist}
+
+One the PC$^2$ configuration is complete (and pc2server is shut
+down!), only the files in the db.1/ directory actually need to be
+preserved.  Thus, a fully configured contest would have these
+files/directories:
+
+\begin{itemlist}
+\item ./profiles/
+\item ./profiles/P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/
+\item ./profiles/P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/db.1/
+\item ./profiles/P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/db.1/settings.dat
+\item ./profiles/P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/db.1/recovery.key
+\item ./profiles/P3b9dcd2a-1d67-4106-8e2b-6b407198e16b/db.1/contest.key
+\item ./pc2v9.ini
+\item ./profiles.properties
+\end{itemlist}
+
+The pc2v9.ini file should have {\tt localhost} as the hostname, as
+that is the directory that you will be running pc2server out of.  Note
+that you may want to include a .htaccess file to prevent anybody from
+viewing the contents of this directory, if it is going to be on a web
+server (it only needs two lines: 'Order deny,allow', and 'deny from
+all').
+
+PC$^2$ version 9.3 promises to include more detailed profiles, which
+would allow for easy switching between the practice contest
+configuration and the actual contest configuration.  While PC$^2$
+version 9.3 was released, it was so buggy that it was retracted, and
+9.2.1 is the current latest version (as of March 17, 2012).  Thus, you
+will probably want two different directories with the above setup: one
+called {\tt contest/} and one called {\tt practice/}.  This makes it
+easy to switch between the two contests: just kill the server, cd into
+the other directory, and re-launch the server.
+
+While most of the files are fairly small, the size of settings.dat
+will be proportional to the size of the files that you configure
+PC$^2$ with: judging input, judging output, validators, etc.  Thus, if
+you have a 10 Mb output file for the judging data, the settings.dat
+will be slightly larger than 10 Mb.
+
+Note that settings.dat is a binary file (it's Java Serialized data),
+so it will not work well with revision control software, such as SVN.
+And if you make a small change (such as one account name), SVN will
+copy the entire updated file into the repository; too many of these
+minor updates will dramatically increase the size of the repository.
+This may not be a problem, but it may also be, depending on if you are
+using revision control and where you are hosting it.
+
+\subsection{pc2server}
+
+Run {\tt pc2server}.  The initial login username is site1, and the
+password is also site1, and you can pick anything for the contest
+password (but remember it!).  There is very little configuration
+needed to be done from the pc2server GUI~-- the only one is in the
+Sites tab, where you can change the Site Title (to 'UVa' instead of
+'Site 1') and the password (that replaces 'site1', above).  All the
+other configuration can be done from pc2admin.
+
+When running it remotely, here is a command to kick off the server
+(this is all on one line):
+
+\begin{verbatim}
+nohup pc2-9.2.4/bin/pc2server --nogui --login site1 --password site1
+      --contestpassword mypassword | tee server.out &
+\end{verbatim}
+
+The {\tt nohup} (for 'no hang-up') prevents terminating the server
+upon a logout, and the 'tee' causes output to be displayed both to
+standard output and to the file specified.  Note that the {\tt
+--password} password starts as 'site1', but can be changed via the
+GUI.  The contest password is what you set as the contest password on
+the first login (i.e., the running of this command).  The {\tt
+--nogui} flag prevents loading of the GUI interface.
+
+Note that closing the server (through the 'Exit' button in the GUI
+(admin GUI?) or killing the process) will terminate all connected
+clients.
+
+\subsection{pc2admin}
+
+\subsubsection{Configuring accounts}
+
+One can easily create accounts in pc2admin via the 'generate' button.
+And while one can set all the options through the pc2admin interface,
+it is much easier to load all of them into a CSV file (tab separated),
+and load them into PC$^2$ directly.
+
+The {\tt accounts.csv} file needs to contain the following fields:
+
+\begin{itemlist}
+\item {\tt site} is the site number that the account is going to be
+used on; if a single-site contest (as most high school contests are),
+then they are all '1'.
+\item {\tt account} is the account name: 'administrator1', 'team1',
+etc.  Numbering should start at 1 for all accounts to enable easy
+loading of the file into PC$^2$.  This is the login name.
+\item {\tt displayname} is the name that should be displayed.  For
+contest staff, this is their full name.  For teams, this is their
+school name and team name.
+\item {\tt password} is the login password; see below for how to
+easily generate random passwords.
+\item {\tt group} is if they are in a group (i.e., all teams from one
+high school are in a given group).  We have not needed this feature.
+\item {\tt permdisplay} is whether they have permission to be
+displayed on the scoreboard.  This should be 'true' for all teams that
+are competing, and 'false' for any other team accounts (extra team
+accounts, a team account for staff testing, etc.).  If another team
+shows up, one can always toggle this permission in the pc2admin GUI.
+\item {\tt permlogin} is whether they can log in.  Should be 'false'
+for any extra accounts that are not being used, and 'true' otherwise;
+this can also be toggled through the pc2admin GUI.
+\item {\tt externalid} is not something we used, and was left blank.
+\item {\tt alias} is not something we used, and was left blank.
+\item {\tt permpassword} is whether they have permission to change
+their password.  Set to 'true' or 'false' as you would prefer.
+\end{itemlist}
+
+In LibreOffice (and, presumably, in Microsoft Excel), one can generate
+a random 10-digit password via the following command: 
+
+\begin{verbatim}
+=concatenate(char(randbetween(97,122)),char(randbetween(97,122)),
+char(randbetween(97,122)),char(randbetween(97,122)),char(randbetween(97,122)),
+char(randbetween(97,122)),char(randbetween(97,122)),char(randbetween(97,122)),
+char(randbetween(97,122)),char(randbetween(97,122)))
+\end{verbatim}
+
+Note that when the file is saved as a CSV, the actual value of the
+password is saved, not the formula.
+
+To load the accounts.csv file, you first have to generate the same
+number of accounts via the pc2admin GUI (Configure Contest -$>$
+Accounts -$>$ Generate).  If not all the accounts have been generated,
+then pc2admin will not load the accounts.csv file.  If you are
+changing properties that are not account, displayname, or password
+(i.e., if you are changing any of the permissions), you have to click
+the 'Include unchanged accounts' check box for those changes to take
+effect.
+
+As the accounts are likely to change often, and it's a text file, it
+works much better with revision control to edit this file, and always
+load the accounts when launching the practices or system tests; this
+prevents the settings.dat file from having any modifications.
+
+\subsubsection{Configuring problems}
+
+(including setting up the auto-judge)
+
+Configuring a custom validator is described in the end of
+section~\ref{CustomValidators}.
+
+\subsubsection{Other configuration details}
+
+\begin{itemlist}
+\item setting the time for the contest
+\item languages that they can use
+\item \ldots
+\end{itemlist}
+
+\subsection{pc2team}
+
+There isn't much to talk about this~-- once the accounts are set up,
+and the passwords are distributed, teams can login.  Note that if they
+can access pc2team before the contest clock starts, they will be able
+to see the names of the problems.
+
+Talk about the 'Test' button\ldots (Ben?)
+
+
+\subsection{pc2judge}
+
+There will need to be many judges.  Each problem will probably need an
+auto-judge, which is a separate login.  And the human judges will each
+need an account.  It is desirable to have the auto-judges running on a
+separate computer, as every time a submission comes in, it pops up
+many dialog boxes (and if you happen to hit the space bar, because you
+were typing something, it may click the 'cancel' button on those
+dialog boxes).
+
+We found that running 10 auto-judges on a single computer caused too
+many problems: memory and CPU usage.  We would have 2 problems
+auto-judged on a single computer, and typically tried to balance the
+problems (so the hardest problem was auto-judged on the same computer
+as the easiest problem, etc.).
+
+With the configuration set above, the auto-judge will determine the
+right answer, and then a human judge to review and release.
+
+\subsubsection{Judging problems}
+
+PC$^2$ cannot distinguish between a wrong answer (WA) and a run-time
+error (RTE).  In the case of the built-in validator, they will all
+report as WA.  If a custom validator is being used (see Validators,
+below), then the will all report as ``No~-- Undetermined''.  In both
+cases, when the human pulls up the output, a RTE will show the
+non-zero exit code in big, bold, red letters at the bottom; a WA will
+not show this.  So while it's easy for a human to determine which is
+which, the auto-judges cannot.
+
+\subsubsection{Using pc2judge}
+
+Depending upon the number of judges, it may be most useful to take
+advantage of the filter features. Each judge is responsible for
+dealing with their own subset of problems, which helps with
+consistency and keeps things organized during a rush of problem
+submissions and/or clarifications. In practice, all of the judges will
+be collaborating, but this can help things running smoothly. Many
+problems involving a validator will come in as "No~--Undetermined",
+and verifying the input will be the only way to get an actual response
+is to check the output manually. Runtime errors are easy to identify,
+as the error code will be displayed at the bottom of the
+window. "Wrong Answer" will be the most likely response needed,
+although "Output Format" will also arise. "Output Format" is rather
+difficult to judge, unless you can convince yourself that everything
+is correct but in the wrong place. It is generally advised to bias in
+favor of a "Wrong Answer." Further, the juding system does not allow
+"Time Limit Exceeded" to be simply accepted as a correct judging, and
+so this will need to be handled manually.
+
+\subsubsection{Balloon distribution}
+\label{sec:pc2judge-balloons}
+
+Balloon people need to prepare beforehand with pc2 so that they know
+how to set it up and deal with the system in order to get balloons
+delivered on time.
+
+\subsection{pc2board}
+

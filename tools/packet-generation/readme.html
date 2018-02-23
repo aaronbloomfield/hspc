@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Contest Packet Generator</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../markdown.css" type="text/css" />
+</head>
+<body>
+<h1 id="contest-packet-generator">Contest Packet Generator</h1>
+<p><a href="../readme.html">Go up to the HSPC tools readme</a> (<a href="../readme.md">md</a>)</p>
+<p>This PHP script is meant to allow users to enter their problem information through a web form. To the submitter, it provides a link to the PDF of just that problem. To the admins, there is a packet.pdf file that contains all of the submitted problems. It does not allow loading of previously submitted problems. Submitting a problem with the same problem ID is effectively an edit, since it replaces the old problem with the same ID (the old one is saved).</p>
+<p>The PHP script will write all output to a problems/ sub-directory -- that directory must exist and be writable by the web server. There must also be an problems/old/ directory as well -- upon an edit (submitting a new problem with the same problem ID -- the old one is moved to the old/ directory.</p>
+<p>This was developed on an Ubuntu 16.04 system. It requires pandoc and pdflatex to be installed (and possibly some pdflatex packages).</p>
+<p>To use it for your institution, you will want to make the following changes:</p>
+<ul>
+<li>Change institution-logo.png to your logo; it is currently a modified version of the SIGCSE 2018 logo</li>
+<li>Set the balloon colors at the top of packet.php</li>
+<li>Change some values in template.tex (lines 8-12)</li>
+<li>Make any changes to intro.tex as desired</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,127 @@
+% there are four things that need to be defined for the intro.tex to
+% work properly:
+% - \theshorttitle (of the contest)
+% - \thelongtitle (also of the contest)
+% - \introbullet
+% - \problemtable
+
+\def\theshorttitle {SIGCSE HSPC 2018}
+\def\thelongtitle {2018 SIGCSE High School Programming Contest Workshop}
+\title {\thetitle}
+\author{Association for Computing Machinery Student Chapter at SIGCSE}
+\date{February 2018}
+
+\documentclass[11pt,twoside,letterpaper]{article}
+
+% Packages
+\usepackage{wrapfig}
+\usepackage{epsfig}
+\usepackage{fullpage}
+\usepackage[letterpaper,centering]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{ifthen}
+\usepackage{sverb}
+\usepackage{amsmath}
+
+% Page offsets
+\setlength{\topmargin}{-.5in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\evensidemargin}{-0.25in}
+\setlength{\textwidth}{7truein}
+\setlength{\textheight}{9truein}
+\setlength{\parskip}{6pt}
+\setlength{\hoffset}{0in}
+\setlength{\voffset}{-0.2in}
+\setlength{\headheight}{0.33in}
+\setlength{\headsep}{0.5in}
+\setlength{\marginparwidth}{0in}
+
+% Page Numbering as 1, 2, 3, etc
+\pagenumbering{arabic}
+
+% Section (Problem) Numbering
+\setcounter{secnumdepth}{1}
+\def\thesection {\Alph{section}.} % Make sure it counts A., B., C., etc
+
+% I don't know anymore...
+\pagestyle{fancy}
+
+% Don't convert the section name to upper case
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+% No decorative lines between body and header / footer
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Setup Header
+\lhead{}
+\chead{\epsfig{figure=../icpc-hspc-logo-image-only.png,height=0.5in}\hspace{0.25in}\epsfig{figure=../acm-hspc-text.pdf,height=0.28in} \hspace{0.05in} {\huge\bf @} \hspace{0.05in} \epsfig{figure=../institution-logo.png,height=0.5in} %\hspace{0.05in} {\Large sponsored by: \epsfig{figure=sponsor_image.pdf,height=0.4in}
+}
+\rhead{}
+
+% Setup Footer
+\cfoot{\theshorttitle}
+\rfoot{\thepage\ of \pageref{LastPage}}
+
+% The 12 balloon colors (for the balloons ordered in March 2014): the
+% 6 rainbow colors; light versions of: green, blue, purple; pink;
+% gold, silver
+
+\ifdefined\ispractice
+\def\introbullet{There one (1) problem in this packet, using letter
+  A.  Balloons are not used for the practice contest.}
+\else
+\def\introbullet{There are twelve (12) problems in this packet, using letters
+  A-L. These problems are {\em loosely} sorted by difficulty. As a team's
+  solution is judged correct, the team will be awarded a balloon. The
+  balloon colors are as follows:}
+\fi
+
+\newcommand{\problemtable}{
+\begin{center}
+\begin{tabular}{|c|c|c|} \hline
+\bf Problem & \bf Problem Name & \bf Balloon Color \\ \hline \hline
+\input{../problems/toc}
+\end{tabular}
+\end{center}
+}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% parameters: directory name (likely something like
+% 'problems/foobar-12345') and the problem id (likely something like
+% 'foobar')
+\newcommand{\problem}[2]{
+\cleardoublepage
+%\section{#1}
+%\subsection*{Description}
+\input{../#1/title.tex}
+\input{../#1/statement.tex}
+\subsection*{Input Format}
+\IfFileExists{../#1/inputformat.tex}{\input{../#1/inputformat.tex}}{(file not found)}
+\subsection*{Output Format}
+\IfFileExists{../#1/outputformat.tex}{\input{../#1/outputformat.tex}}{(file not found)}
+\subsection*{Sample Input}
+\IfFileExists{../#1/#2.sample.in}{\verbinput{../#1/#2.sample.in}}{(file not found)}
+\subsection*{Sample Output}
+\IfFileExists{../#1/#2.sample.out}{\verbinput{../#1/#2.sample.out}}{(file not found)}
+}
+
+\begin{document}
+\raggedbottom
+
+%\maketitle
+
+%\tableofcontents
+
+%\newpage
+\lfoot{The Contest}
+\input{../intro.tex}
+\lfoot{\thesection\ \rightmark}
+
+% enter your \problem{}{} statements here:
+
+%\end{document}

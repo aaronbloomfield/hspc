@@ -1,0 +1,10 @@
+teaminfo.csv
+uva-logo.pdf
+icpc-hspc-logo.png
+*.aux
+*.log
+teaminfo.tex
+config.tex
+*~
+invoices/
+emails.html

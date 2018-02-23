@@ -1,0 +1,438 @@
+This appendix lists the full installation directions for the
+VirtualBox image that we have used in our contests for the last few
+years.  They are based on what can be found
+online\footurl{http://aaronbloomfield.github.io/slp/docs/virtualbox-image-details.html}.
+The version online has more sections than what is listed here, as the
+original image is used at UVa for various classes.  Only the sections
+relevant to a programming contest are included here.
+
+This system uses 64 bit Ubuntu 16.04.
+
+
+\section{Introduction}
+
+\subsection*{Software Versions}
+
+This installation document installs the following versions:
+
+\begin{itemlist}
+\item Kubuntu 16.04, 64-bit\footurl{http://kubuntu.org/getkubuntu/}
+\item Clang++ version 3.8.0
+\item Python 3.5.2\footurl{http://packages.ubuntu.com/xenial/python3}
+\end{itemlist}
+
+Newer versions of the above may have since come out, but at the time
+of the writing of this document (August 2017), they were either the
+versions installed via apt-get (Clang, Python).
+
+\subsection*{Notes}
+
+\begin{itemlist}
+\item The guest hard drive reported 9.3 Gb of space available, prior
+  to distribution of the image.  The disk image itself was, after
+  compaction, 7.6 Gb.  When compressed via zip, it was 2.6 Gb in size.
+\item You will likely need to use a different unzip program to extract
+  the image; the ones that come bundled with most operating systems
+  can not handle archives of that size.  We have used
+  7-zip\footurl{http://www.7-zip.org/} with success.
+\item Video and sound (via youtube) worked fine with Chrome.
+\item The VM may capture the mouse~-- to uncapture it, you press the
+  "host key", (which is the right Control key on Linux and Windows
+  hosts, and the left Command key on Mac hosts).  To have it warn you
+  about what this is, you can reset all warnings via the VirtualBox
+  help menu, and it will warn you about this at boot-up.
+\item In the image creation process, you may run into a problem with
+  VirtualBox where it cannot register a new (or different) disk
+  because it has the same UUID as a previous disk that you are
+  replacing.  If so, then the command {\tt VBoxManage internalcommands
+  sethduuid disk.vdi} (changing {\tt disk.vdi} appropriately) will change
+  the UUID, and allow you to proceed.
+\end{itemlist}
+
+
+\section{Basic installation}
+
+\begin{itemize}
+\tightlist
+\item Created a new VirtualBox image
+
+  \begin{itemize}
+  \tightlist
+  \item I named it ``UVa HSPC 2017'' or similar; I manually selected
+    ``Ubuntu (64 bit)'' as the version
+  \item I set the memory at 1536 Mb (instead of the default of 512
+    Mb), ensured that the disk size was ``dynamically allocated'' and
+    was set to 20 Gb (instead of the default 8 Gb); everything else
+    was set at the default.  If your computers can support it, setting
+    the memory at 2048 Mb would be better.
+  \end{itemize}
+\item  I installed the latest Kubuntu 16.04.1 LTS (64 bit), desktop edition, from the
+  DVD image online\footurl{http://www.kubuntu.org/getkubuntu}.
+
+  \begin{itemize}
+  \tightlist
+  \item When prompted, I clicked on `download updates' and `install
+    3rd party software' when the options were given
+  \item For hard drive, I used the default: ``Guided -- use entire disk''
+  \item The computer name is cassiopeia, the login name is `student', full
+    name is `L33t H4x0r', and the password is `password'
+  \item  This account can run root (system) commands via `sudo' - if you
+    don't know what this means, you can safely ignore it
+  \end{itemize}
+  
+\item Once it was finished, I rebooted, and logged in
+\item Via a Konsole, ran \texttt{sudo\ apt-get\ update} then
+  \texttt{sudo\ apt-get\ dist-upgrade}
+\item Reboot!
+\item Ran \texttt{apt-get\ autoremove} (which didn't have to remove
+  anything)
+\item  VirtualBox guest additions
+
+  \begin{itemize}
+  \tightlist
+  \item These are the utilities so that VirtualBox will work correctly
+    with the host computer (proper full screen, etc.)
+  \item From the VirtualBox Device menu, select ``Insert Guest
+    Additions CD Image'', and follow the prompts
+  \item Once done, run \texttt{autorun.sh} from
+    \texttt{/media/student/VBOXADDITIONS\_4.3.36\_105129} (or
+    similar), and follow the prompts. Alternatively, if that does not
+    work, try running \texttt{sudo\ bash\ VBoxLinuxAdditions.run} from
+    that same directory.
+  \end{itemize}
+
+\item Reboot!
+\end{itemize}
+
+
+\section{Development installation}
+
+\begin{itemize}
+\item
+  Installed the other packages:
+  \texttt{sudo\ apt-get\ install\ clang\ emacs24\ vim\ nasm\ astyle\ tofrodos\ source-highlight\ gdb\ lldb\ doxygen\ doxygen-doc\ graphviz\ ddd\ git\ g++\ evince\ g++-multilib\ libc6-dev-i386\ libc6-dev:i386\ flex}
+
+  % edit from the original: remove the line about other apt-get commands
+  % edit from original: remove python-gpgme (and description for that), as well as the objective C packages (and associated description)
+  
+\item
+  Ran the following two commands to change the default C/C++ compiler to
+  clang:
+
+\begin{verbatim}
+sudo update-alternatives --set cc /usr/bin/clang
+sudo update-alternatives --set c++ /usr/bin/clang++
+\end{verbatim}
+\item
+  Downloaded Google Chrome from
+  here\footurl{https://www.google.com/chrome/browser/desktop/index.html},
+  and installed it via:
+
+% edit from the original: replacted \texttt with \begin{verbatim} so it would lay out properly in LaTeX
+  
+\begin{verbatim}
+sudo dpkg -i google-chrome-stable_current_i386.deb
+\end{verbatim}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    That installation did not work perfectly (which was expected), and
+    to fix an installation such as this you run
+    \texttt{sudo\ apt-get\ -f\ install}
+  \item
+    Then the .deb file was removed
+  \end{itemize}
+\item
+  Added konsole, emacs, and chrome icons to favorites (from the K
+  (start) menu, right-click and select `add to favorites'), and the task
+  bar (from the favorites menu, right-click and select `add to panel';
+  this may require right-clicking on the panel and selecting panel
+  options -\textgreater{} panel settings prior to moving the icons)
+\item
+  Browser customization
+
+  \begin{itemize}
+  \tightlist
+
+% edit from the original: changed initial tabs
+  \item
+    Set Chrome's home page the in-contest status page
+  \item
+    Chrome is set as the default browser
+  \end{itemize}
+\item
+  I loaded up emacs from the command line, and then told it to disable
+  showing the startup messages (this could also be accomplished by
+  following guidelines available online
+  \footurl{http://xenon.stanford.edu/~manku/dotemacs.html}.
+\item
+  Added a few aliases were added (the last 4 lines of .bashrc) to help
+  prevent people from accidentally removing files (adding -i for rm, mv,
+  and cp; and aliasing xemacs to emacs). This was done both in
+  /home/student/.bashrc and /etc/skel/.bashrc.
+
+\begin{verbatim}
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+alias xemacs='emacs'
+\end{verbatim}
+
+% edit from the original: removed the following line:
+%\item Cloned the github repo via \texttt{git\ clone\ https://github.com/markfloryan/pdr}; note that a  \texttt{git\ pull} will still have to be executed each time to update  it
+\item
+  Removed all the empty default directories in \textasciitilde{}/student
+  other than Desktop and Downloads
+\item
+  Changed the auto-lock feature: K-menu -\textgreater{} Computer
+  -\textgreater{} System Settings -\textgreater{} Desktop Behavior
+  -\textgreater{} Screen Locking, uncheck the ``lock screen
+  automatically\ldots{}'' button, and click Apply.
+\item
+  Plasmashell, which is part of the graphical window system, was
+  crashing repeatedly. The reason seems to be tooltip previews of
+  application windows, so these should be disabled: right click taskbar
+  -\textgreater{} Task Manager Settings -\textgreater{} General
+  -\textgreater{} Uncheck ``show tooltips''
+\end{itemize}
+
+
+\section{Programming Contest configuration
+sections}\label{programming-contest-configuration-sections}
+
+
+One of the sections below will detail how to turn off the
+Internet for use in the actual contest, and that should only be
+completed for the final contest image.
+
+\subsection*{Programming Contest configuration}
+
+\begin{itemize}
+
+\item
+  Install the packages:
+  {\tt sudo apt-get install emacs24 vim eclipse g++ git gdb gedit openjdk-8-jdk}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If the Basic Installation section, above, was installed, then some
+    of these packages have already been installed
+  \item
+    The openjdk-8-doc package is not installed here to keep the image
+    size down, but the packages above install it anyway
+  \end{itemize}
+
+\item Install Eclipse
+  \begin{itemize}
+  \tightlist
+\item  We have found that the version of Eclipse that can be installed via {\tt apt-get} is often out of date.  Thus, we installed it from the packages online\ldots
+  \item Fill this in...  {\bf TODO}
+\end{itemize}  
+
+\item
+  If the submission system that you are using requires installation, then download that.  We used PC$^2$, so the directions for that are included here.
+
+  \begin{itemize}
+    \tightlist
+    \item Download the latest \href{http://www.ecs.csus.edu/pc2/}{PC\^{}2}
+  software and unzip it in /usr/local/
+  \item
+    At the time of this writing, the latest version is 9.3.2-3449, and
+    the direct download link is
+    \href{http://www.ecs.csus.edu/pc2/code/v9/pc2-9.3.2-3449/pc2-9.3.2-3449.zip}{here};
+    thus, the directory it is unzipped into would be
+    \texttt{/usr/local/pc2-9.3.2}
+  \item
+    After unzipping, create a symlink: from /usr/local/ run (changing
+    the version as necessary): \texttt{sudo\ ln\ -s\ pc2-9.3.2\ pc2}
+  \item
+    Edit /usr/local/pc2/pc2v9.ini and replace \texttt{localhost} on the
+    \texttt{server} line (likely line 12) with the full server name of
+    the primary submission server
+  \end{itemize}
+\item
+  Create a script to restore the Internet access after the contest
+  (this does not hurt anything to have it ready, as it won't do
+  anything if the Internet is not turned off). This can be
+  \texttt{/usr/local/bin/ restore-internet}.  As the commands therein
+  need sudo, only the \texttt{student} user can run them. This is
+  typically executed at the end of the contest if the contestants want
+  to save their work (usually by emailing it to themselves). All that
+  has to be done is to modify the default policy for the chains. Be
+  sure to also run
+  \texttt{chmod\ 755\ /usr/local/bin/restore-internet}.  The contents
+  of the {\tt restore-internet} script are the following four lines:
+
+\begin{verbatim}
+#!/bin/bash
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+\end{verbatim}
+\item
+  Create a \texttt{/usr/local/bin/pc2team} shell script, and allow it
+  to be executed via {\tt chmod 755 /usr/local/bin/pc2team}.  The
+  contents of the {\tt pc2team} script file are the following four
+  lines:
+
+\begin{verbatim}
+#!/bin/bash
+cd
+/bin/cp -f /usr/local/pc2/pc2v9.ini .
+/usr/local/pc2/bin/pc2team &
+\end{verbatim}
+\end{itemize}
+
+\subsection*{User account configuration}
+
+The {\tt student} account can execute commands via {\tt sudo}, so we
+have to create another account for the students to use.
+
+\begin{itemize}
+  \tightlist
+\item Change the password for {\tt student} to something that they will not be able to guess.
+  \item Create a {\tt hspcteam} account (or similar), and set its password
+    to {\tt password} (or similar).
+\item
+  If there are more users in the image, then run \texttt{chmod\ 700\ /home/*} to
+  prevent the second user from accessing any other user accounts.  If
+  there is only one user account on the system, then this is not
+  necessary.  There isn't anything of use in the {\tt student}
+  account, however.
+\item Log in as hspcteam; the rest of the commands in this list are from
+    that account.
+\item
+  Add in the four aliases to .bashrc, as described above in the ``Basic
+  installation'' section
+\item
+  Put the often used icons in the tool bar: Firefox, Emacs,
+  Konsole, and Eclipse
+\item
+  Load up Chrome, and set the contest site as the default
+  home page
+\item
+  Load up emacs, click on ``never show this again'', and then ``dismiss
+  startup screen''; exit emacs
+\item
+  Remove all directories in the account other than Downloads and Desktop
+\item
+  Create an icon in the task bar for pc2team.  It may be easiest to
+  use an icon adapted from another application.  You can find an
+  appropriate logo
+  online\footurl{https://www.google.com/search?q=icpc+logo} to use for that
+\end{itemize}
+
+\subsection*{Turning off Internet access (and other things)}
+
+\begin{itemize}
+\item
+  Prior to the contest itself, a bunch of things need to occur to the
+  image for it to work: Internet needs to be turned off, etc. These
+  modifications are \textbf{\emph{NOT}} made to the image as released
+  to the contestants prior to the contest, and should be made only
+  right before the final image is prepared for the contest.
+\item
+  Edit {\tt /etc/hosts} to allow that to resolve domain names to IP
+  addresses.  Specifically, the submission server(s) and the server(s)
+  that have the contest materials should be included in that file, as
+  follows:
+
+\begin{verbatim}
+1.2.3.4 server1.university.edu server1
+5.6.7.8 server2.university.edu server2
+9.10.11.12 server3.university.edu server3
+\end{verbatim}
+\item
+  Configure iptables: this details how to turn \emph{off} network
+  access. \textbf{It is ONLY to be used on the final image for a
+  programming contest!!!}
+
+  \begin{itemize}
+  \item
+    These directions based on the ones here\footurl{https://help.ubuntu.com/community/IptablesHowTo} and \footurl{http://stackoverflow.com/questions/21870386/iptables-block-access-to-all-ports-except-from-a-partial-ip-address}.
+    We want to allow access to the submission servers, but deny
+    everything else. We set the policy to all three chains to DROP, and
+    add ACCEPT lines for localhost and the course servers for the INPUT
+    and OUTPUT chains (we don't do anything, other than changing the
+    default policy, to the FORWARD chain). For example, the following
+    commands will work (assuming the servers are
+    server1.cs.univeristy.edu through server3.cs.university.edu):
+
+\begin{verbatim}
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A INPUT -j ACCEPT -s server1.cs.university.edu
+iptables -A INPUT -j ACCEPT -s server2.cs.university.edu
+iptables -A INPUT -j ACCEPT -s server3.cs.university.edu
+iptables -A OUTPUT -j ACCEPT -d server1.cs.university.edu
+iptables -A OUTPUT -j ACCEPT -d server2.cs.university.edu
+iptables -A OUTPUT -j ACCEPT -d server3.cs.university.edu
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+\end{verbatim}
+  \item
+    Once those commands are entered via the command line, we save the
+    rules: \texttt{iptables-save\ \textgreater{}\ /etc/iptables.rules}
+    (note the greater-than sign in that command)
+  \item
+    After saving the rules, we configure the system to apply those rules
+    on boot (specifically, when bringing the network interface up). Edit
+    /etc/network/interfaces. There will only be a clause for lo (the
+    loopback interface) present. Under the
+    \texttt{iface\ lo\ inet\ loopback} line, put in the following line
+    (indented):
+    \texttt{pre-up\ iptables-restore\ \textless{}\ /etc/iptables.rules}
+  \end{itemize}
+\item You may want to be able to reset the image between the practice contest and the full contest.  To do this, log in as {\tt student} (as you will need to use {\tt sudo}, and run the following command:
+    \texttt{sudo\ /bin/cp\ -a\ /home/hspcteam\ .}; then enter the
+    following script (and make it executable) as
+    \texttt{/usr/local/bin/reset-hspcteam}:
+
+\begin{verbatim}
+#!/bin/bash
+cd
+sudo rsync -a --del hspcteam/ /home/hspcteam/
+\end{verbatim}
+
+\end{itemize}
+
+\section{Image completion}\label{image-completion}
+
+
+\subsection*{Image finalization}
+
+\begin{itemize}
+\tightlist
+\item
+  Reboot (rebooting also clears out /tmp)
+\item
+  Run \texttt{apt-get\ autoremove} and \texttt{apt-get\ clean}
+\item
+  Cleared browser history
+\item
+  To reduce the size of the hard disk (since I have to host it for
+  people to download), I ran
+  \texttt{sudo\ cat\ /dev/zero\ \textgreater{}\ zero;\ sudo\ /bin/rm\ -f\ zero}.
+  This creates a large file of all 0's until it runs out of space, then
+  removes that file.
+\item
+  Ran \texttt{history\ -c} to remove the history of the commands entered
+  on the command line
+\item
+  Logged out then shut down the guest, and ran:
+  \texttt{VBoxManage\ modifyhd\ disk.vdi\ -\/-compact} (using the real
+  image file name instead of ``disk.vdi''). A better way would be to
+  load up into recovery mode and run zerofill, but the grub menu does
+  not seem to be easily available to load into recovery mode, so I
+  didn't pursue it any further.
+\end{itemize}
+
+\subsection*{Increasing the disk size}
+
+This should not be necessary, as the 20 Gb hard drive in the image has
+about half of that space available.  Should you want to do this, you
+can find the directions online
+\footurl{http://aaronbloomfield.github.io/slp/docs/virtualbox-image-details.html}.

@@ -1,0 +1,7 @@
+hspcguide.pdf
+*.aux
+*.log
+*.out
+*.toc
+*~
+

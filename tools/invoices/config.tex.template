@@ -1,0 +1,21 @@
+% see the readme file in this directory for details about editing this
+% file
+
+\def\contestname{First Annual High School Programming Contest}
+\def\contestlocation{the University of Antartica}
+\def\leftlogo{left-logo.pdf}
+\def\rightlogo{right-logo.png}
+\def\costperteam{40.00}
+\def\currency{USD} % USD, Euro, RMB, etc.; see http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf for details
+
+\def\bottomtext{
+\begin{tabular}{cl}
+\hspace{0.75in} & Payment can be submitted by check payable to ``ACM at University'' and sent to the address below. \\
+& The Federal EIN for ACM at UVa is 12-3456789. \\
+& \\
+& Faculty Advisor \\
+& Department of Computer Science \\
+& Address of the University \\
+& Anytown, Anycountry, ZIPCODE \\
+\end{tabular}
+}

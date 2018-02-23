@@ -1,0 +1,83 @@
+\documentclass{article}
+ 
+\usepackage[letterpaper,top=0.5in,left=0in,right=0in,bottom=0in]{geometry}
+\usepackage{palatino}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{invoice} % Note: this REQUIRES a change to /usr/share/texlive/texmf-dist/tex/latex/invoice/invoice.sty as described at https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843
+%\usepackage{forloop}
+
+
+\usepackage{etoolbox} % defines lists and their operations
+\usepackage{tabulary} % defines content-based sizable tables
+
+% commands for adding teams
+\newcounter{numteams}
+\setcounter{numteams}{0}
+\newcommand{\addteamname}[2]{
+  \expandafter\def\csname team@#1\endcsname{#2}
+  }
+\newcommand{\getteamname}[1]{
+  \expandafter\csname team@#1\endcsname
+  }
+\newcommand{\addteam}[1]{
+\addteamname{\thenumteams}{#1}
+\addtocounter{numteams}{1}
+}
+
+% comnmand for setting the school name and amount paid
+\newcommand{\getschoolname}{Unset}
+\newcommand{\schoolname}[1]{
+  \renewcommand{\getschoolname}{#1}
+}
+\newcommand{\getamountpaid}{0}
+\newcommand{\amountpaid}[1]{
+  \renewcommand{\getamountpaid}{#1}
+}
+
+
+\input{config}
+\input{teaminfo}
+
+% this command adapted from the one in the forloop package.
+% parameters: 1: counter, 2: initial value, 3: condition, 4: LaTeX
+% code
+\newcommand{\forloop}[4]{%
+\setcounter{#1}{#2}%
+\ifthenelse{#3}{%
+#4\addtocounter{#1}{1}\forloop{#1}{\value{#1}}{#3}{#4}%
+}{}}
+
+\begin{document}
+
+% format the top part of the invoice document
+\vspace*{0.25in}
+\begin{tabular}{cccccc}
+\hspace{0.75in} & \includegraphics[width=1.5in]{\leftlogo} & \hspace{0.25in} & 
+\huge Invoice / Receipt & \hspace{0.25in} &
+\includegraphics[width=1.2in]{\rightlogo} \\
+\end{tabular}
+\vspace{0.75in}
+\begin{center}
+\LARGE \contestname\linebreak at \contestlocation
+\end{center}
+\vspace{0.5in}
+{\large\hspace*{0.75in}Invoice for: \getschoolname}
+\vspace{0.5in}
+\begin{invoice}{\currency}{0}
+\ProjectTitle{Team Registration}
+
+% print each team
+\newcounter{i}
+\forloop{i}{0}{\value{i}<\value{numteams}}{
+\Fee{Team \getteamname{\thei}}{\costperteam}{1}
+}
+
+% did they pay anything already?
+\ifthenelse{\equal{\getamountpaid}{0}}{}{\Discount{Payment received}{\getamountpaid}}
+
+% finish up
+\end{invoice}
+\vspace{1in}
+\bottomtext
+\end{document}

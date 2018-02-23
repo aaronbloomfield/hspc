@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Contest Invoice Generation</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="../../markdown.css" type="text/css" />
+</head>
+<body>
+<h1 id="contest-invoice-generation">Contest Invoice Generation</h1>
+<p><a href="../readme.html">Go up to the HSPC tools readme</a> (<a href="../readme.md">md</a>)</p>
+<p>This utility will generate invoices for the participating high schools. Given a CSV file in a given format, as well as some contest configuration, then the <code>./generate-invoices.tex</code> script will run <code>pdflatex</code> to create one invoice per high school. It will also create a list of <code>mailto:</code> links to quickly email the invoices.</p>
+<h2 id="installation">Installation</h2>
+<p>This tool was developed under Ubuntu 16.04. It requires that Python 3 be installed, as well as PDF LaTeX (and a few LaTeX packages).</p>
+<p>For Ubuntu, you will need to apt-get install the following packages: <code>pdflatex texlive-latex-extra python3</code>.</p>
+<p>One of the files installed by the <code>texlive-latex-extra</code> package is <code>invoice.sty</code> -- this file is used by this script. It has a bug (described <a href="https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843">here</a>, that requires a change to the <code>/usr/share/texlive/texmf-dist/tex/latex/invoice/invoice.sty</code> file. You can either run the patch provided on that web page, or maually edit the file as root or via <code>sudo</code> (replace the <code>\input{fp}</code> line with <code>\RequirePackage{fp}</code> line; this should be around line 150 in that file).</p>
+<h2 id="configuration">Configuration</h2>
+<p>There are two files that are needed to be configured for this script to run.</p>
+<h3 id="logos">Logos</h3>
+<p>This script assumes that there are two logos to put at the top of each invoice. Tyipcally, an institution logo and a contest logo are used. You can use a blank (white) image if you do not want to use the logos. They can be in PDF, JPEG, or PNG format. We'll call them <code>left-logo.pdf</code> and <code>right-logo.png</code>, below.</p>
+<h3 id="config.tex">config.tex</h3>
+<p>The first is a configuration file for the contest. The file is stored as <code>config.tex.template</code>, and should be copied to <code>config.tex</code>. The file contents are as follows:</p>
+<pre><code>\def\contestname{First Annual High School Programming Contest}
+\def\contestlocation{the University of Antartica}
+\def\leftlogo{left-logo.pdf}
+\def\rightlogo{right-logo.png}
+\def\costperteam{40.00}
+\def\currency{USD} % USD, Euro, RMB, etc.; see http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf for details
+
+\def\bottomtext{
+\begin{tabular}{cl}
+\hspace{0.75in} &amp; Payment can be submitted by check payable to ``ACM at University&#39;&#39; and sent to the address below. \\
+&amp; The Federal EIN for ACM at UVa is 12-3456789. \\
+&amp; \\
+&amp; Faculty Advisor \\
+&amp; Department of Computer Science \\
+&amp; Address of the University \\
+&amp; Anytown, Anycountry, ZIPCODE \\
+\end{tabular}
+}</code></pre>
+<p>This file is LaTeX, and all values have to go in curly brackets. The fields are:</p>
+<ul>
+<li><strong>\contestname:</strong> the name of the contest.</li>
+<li><strong>\contestlocation:</strong> the name of the institution.</li>
+<li><strong>\leftlogo:</strong> the logo that goes on the left side of the header.</li>
+<li><strong>\rightlogo:</strong> the logo that goes on the right side of the header.</li>
+<li><strong>\costperteam:</strong> how much team registration costs.</li>
+<li><strong>\currency:</strong> the currency used: {USD} % USD, Euro, RMB, etc.; see <a href="http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf">here</a> for other options.</li>
+<li><strong>\bottomtext:</strong> any text that should go at the bottom of the invoice. This is LaTeX code, and should be formatted properly. In the example above, a table is defined (from the <code>\begin{tabular}{cl}</code> line to the <code>\end{tabular}</code> line), but it can be any format. Be sure to end this with the closing curly bracket (the last line of the sample file).</li>
+</ul>
+<h3 id="teaminfo.csv">teaminfo.csv</h3>
+<p>This file is a CSV of the schools. The CSV file has the following fields:</p>
+<ul>
+<li><strong>School name</strong>: The name of the participating school. Spaces are fine, but ber careful about including characters that have meanings in LaTeX (an ampersand (<code>&amp;</code>)is a common one).</li>
+<li><strong>Output file name</strong>: the file name that the invoice should be saved to.</li>
+<li><strong>Contact email</strong>: the email for the invoice to be sent to. This script creates a series of <code>mailto:</code> links to make sending the emails quicker -- it does NOT send the emails automatically.</li>
+<li><strong>Payment received</strong>: any amount that has already been paid, as a number (float or integer) -- if zero, then the &quot;payment received&quot; line will not be printed on the invoice.</li>
+<li><strong>Number of teams</strong>: how many teams are participating from that school.</li>
+<li><strong>Team 1</strong>, <strong>Team 2</strong>, ..., <strong>Team <span class="math inline"><em>n</em></span></strong>: the team names. You can have as many columns here as necessary -- the script will read as many team columns as the number provided in the <em>number of teams</em> field.</li>
+</ul>
+<p>A sample CSV file is provided as <code>teaminfo.csv.template</code>, and is shown below.</p>
+<pre><code>School name,Output file name,Contact email,Payment received,Number of teams,Team 1,Team 2,Team 3,Team 4,... to team n
+Generic High School,generic.pdf,nobody@nowhere.com,80,3,Foo,Bar,Qux,,
+Random High School,random.pdf,null@nowhere.com,0,2,Thud,Grunt,,,</code></pre>
+<h1 id="running-the-script">Running the script</h1>
+<p>To run the script, just enter: <code>python3 generate-invoices.py</code>. You can supply a command-line parameter of the CSV file, but if you do not, then it assumes that it should look for <code>teaminfo.csv</code>. The script will create an <code>invoices/</code> sub-directory (if one does not exist), and put all the invoices there. If there is an error with the creation of a particular school's invoice, then a message is printed by the script. This can happen when an ampersand (<code>&amp;</code>) is in the school name, for example.</p>
+<p>The script will also create an <code>emails.html</code> file, which can be used to send emails to the contact email listed in the CSV file. It adds a subject and body, which can be customized by editing the <code>generate-invoices.py</code> script. It does not automatically attach the invoice, since that is not supported by the <code>mailto:</code> link in modern web browsers for security reasons.</p>
+<p>That's it!</p>
+<h1 id="how-the-script-works">How the script works</h1>
+<p>The script will read in the <code>teaminfo.csv</code> file, and create a temporary teaminfo.tex file for each school. That file might look like the following:</p>
+<pre><code>\schoolname{Generic High School}
+\amountpaid{80}
+\addteam{Foo}
+\addteam{Bar}
+\addteam{Qux}</code></pre>
+<p>The commands shown in that file are defined in the invoice.tex file. The invoice.tex file is then LaTeX'ed into a PDF via: <code>pdflatex -halt-on-error invoice.pdf</code>. Assuming it creates the file properly, that file is then moved into the <code>invoices/</code> sub-directory with the name specified in the teaminfo.csv file.</p>
+</body>
+</html>
