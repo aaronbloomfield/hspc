@@ -8,12 +8,19 @@ School Programming Contest" (workshop #306).  This material is being
 made publiclly available to help people who did not attend the
 workshop.
 
-The majority of the material in this repository is released under a
-[Creative Commons Attribution-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA).
-Some materials are the works of their individual owners (specifically:
-the PC$^2$ images, the ICPC logo, and the xkcd comic), and thus are
-not released under that license.
+
+### License
+
+- The code in this repo is released under the
+  [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html).  This is the
+  code in the tools/ directory.
+- Some materials are the works of their individual owners
+  (specifically: the PC$^2$ images, the ICPC logo, and the xkcd
+  comic).
+- The remainder of the material in this repository is released under a
+  [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)
+  (CC BY-SA).
+
 
 ### Repository Contents
 

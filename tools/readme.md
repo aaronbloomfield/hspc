@@ -3,6 +3,9 @@ HSPC Tools
 
 [Go up to the main readme](../readme.html) ([md](../readme.md))
 
+The code in this repo is released under the
+[GPL](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
 These are various tools that are included in this repo to help
 coordinate a programming contest.  Unless otherwise indicated, they
 are all bash scripts.

@@ -1,7 +1,13 @@
 <?php
 
-$colors = array("dark purple", "yellow", "orange", "pink", "light purple", "dark green", "light blue",
-                "red", "dark blue", "light green", "silver", "gold", "silver", "light green");
+# this is part of the https://github.com/aaronbloomfield/hspc repo
+#
+# it is released under the GPL license
+# (https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+$colors = array("purple", "light green", "yellow", "orange", 
+                "dark blue", "pink", "red", "dark green",
+                "light blue", "silver", "gold", "white", "gray");
 
 printHeader();
 if ( validPOST() ) {
@@ -104,7 +110,8 @@ function assemblePacket($name) {
         // write the \problem{}{} LaTeX command
         $parts = explode(" ",$line);
         fprintf ($fp,"\\problem{" . $parts[2] . "}{" . $parts[1] . "}\n");
-        fprintf ($fp2,"\\problem{" . $parts[2] . "}{" . $parts[1] . "}\n");
+        if ( $parts[1] == $name )
+            fprintf ($fp2,"\\problem{" . $parts[2] . "}{" . $parts[1] . "}\n");
         // add the title to the table of contents
         $title = file_get_contents($parts[2] . "/title.txt");
         $color = $colors[$c];
@@ -113,6 +120,7 @@ function assemblePacket($name) {
     fprintf ($fp, "\\end{document}\n");
     fprintf ($fp2, "\\end{document}\n");
     fclose($fp);
+    fclose($fp2);
     fclose($fptoc);
 
     $ret = runPDFLaTeX("packet",false);
@@ -182,7 +190,7 @@ function printFooter() {
     echo <<<EOT
 <p>The problem statement, input format, and output format should be in Markdown, although LaTeX style formulas can be enclosed in dolar signs.  The sample and judging I/O is shown verbatim exactly as it is shown below.</p>
 
-<form method="post" action="packet.php" enctype="multipart/form-data">
+<form method="post" action="index.php" enctype="multipart/form-data">
 
   <table>
 

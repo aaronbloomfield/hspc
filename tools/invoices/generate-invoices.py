@@ -1,3 +1,8 @@
+# this is part of the https://github.com/aaronbloomfield/hspc repo
+#
+# it is released under the GPL license
+# (https://www.gnu.org/licenses/gpl-3.0.en.html)
+
 import csv 
 import sys
 from subprocess import call, run
