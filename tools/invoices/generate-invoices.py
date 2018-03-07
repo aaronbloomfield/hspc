@@ -8,6 +8,8 @@ import sys
 from subprocess import call, run
 import subprocess
 from pathlib import Path
+import re
+import string
 
 print ("Making invoices/ sub-directory...")
 call (["mkdir","-p","invoices"])
@@ -24,8 +26,17 @@ reader = csv.reader(f)
 for row in reader:
     if row[0] == "School name":
         continue
+
+    # determine output file name
+    outputname = row[1]
+    if outputname == "":
+        #translator = row[0].maketrans('', '', string.punctuation)
+        #outputname = row[0].translate(translator) + ".pdf"
+        outputname = row[0]
+        outputname = re.sub('[' + string.punctuation + ' ]', '', outputname) + ".pdf"
+    
     fp = open("teaminfo.tex", "w")
-    print ("Generating invoice for '" + row[0] + "' as " + row[1] + "...")
+    print ("Generating invoice for '" + row[0] + "' as '" + outputname + "'...")
     fp.write ("\\schoolname{" + row[0] + "}\n")
     fp.write ("\\amountpaid{" + row[3] + "}\n")
     count = 0
@@ -41,7 +52,7 @@ for row in reader:
     # check if there was an error
     file = Path("invoice.pdf")
     if file.is_file():
-        call (["/bin/mv","-f","invoice.pdf","invoices/"+row[1]])
+        call (["/bin/mv","-f","invoice.pdf","invoices/"+outputname])
         emails.write ("<li><a href='mailto:" + row[2] + "?subject=Programming contest invoice&body=Attached is your invoice for the upcoming programming contest.  Please let me know if you have any questions.'>" + row[0] + "</a> (attach " + row[1] + ")</li>\n")
     else:
         print ("    ERROR: invoice did not create properly!")

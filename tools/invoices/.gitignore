@@ -1,10 +1,26 @@
+# these are the two files that the user creates from templates
+config.tex
 teaminfo.csv
-uva-logo.pdf
-icpc-hspc-logo.png
+
+# these files are produced by the script
+teaminfo.tex
+
+# these file types are ignored so that the user can place the
+  appropriate logo images in this directory without git thinking they
+  are new files
+*.pdf
+*.png
+*.jpg
+
+# files created by LaTeX
 *.aux
 *.log
-teaminfo.tex
-config.tex
+
+# emacs backup files
 *~
+
+# the output directory that the invoices are written to
 invoices/
+
+# the file that the email links are written to
 emails.html

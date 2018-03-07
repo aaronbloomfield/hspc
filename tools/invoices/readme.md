@@ -20,7 +20,7 @@ For Ubuntu, you will need to apt-get install the following packages:
 One of the files installed by the `texlive-latex-extra` package is
 `invoice.sty` -- this file is used by this script.  It has a bug
 (described
-[here](https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843),
+[here](https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843)),
 that requires a change to the
 `/usr/share/texlive/texmf-dist/tex/latex/invoice/invoice.sty` file.
 You can either run the patch provided on that web page, or maually
@@ -97,7 +97,8 @@ fields:
   fine, but ber careful about including characters that have meanings
   in LaTeX (an ampersand (`&`)is a common one).
 - **Output file name**: the file name that the invoice should be saved
-  to.
+  to.  If left blank, the output name will be based on the school name
+  (with all spaces and punctuation removed and a '.pdf' extension).
 - **Contact email**: the email for the invoice to be sent to.  This
   script creates a series of `mailto:` links to make sending the
   emails quicker -- it does NOT send the emails automatically.
@@ -115,21 +116,22 @@ A sample CSV file is provided as `teaminfo.csv.template`, and is shown
 below.
 
 ```
-School name,Output file name,Contact email,Payment received,Number of teams,Team 1,Team 2,Team 3,Team 4,... to team n
+School name,Output file name (can be blank),Contact email,Payment received,Number of teams,Team 1,Team 2,Team 3,Team 4,... to team n
 Generic High School,generic.pdf,nobody@nowhere.com,80,3,Foo,Bar,Qux,,
 Random High School,random.pdf,null@nowhere.com,0,2,Thud,Grunt,,,
 ```
 
 # Running the script
 
-To run the script, just enter: `python3 generate-invoices.py`.  You
-can supply a command-line parameter of the CSV file, but if you do
-not, then it assumes that it should look for `teaminfo.csv`.  The
-script will create an `invoices/` sub-directory (if one does not
-exist), and put all the invoices there.  If there is an error with the
-creation of a particular school's invoice, then a message is printed
-by the script.  This can happen when an ampersand (`&`) is in the
-school name, for example.
+To run the script, just enter: `python3 generate-invoices.py`.  Or you
+can run `make`, which does the same thing.  You can supply a
+command-line parameter of the CSV file (if running it via the first
+method), but if you do not, then it assumes that it should look for
+`teaminfo.csv`.  The script will create an `invoices/` sub-directory
+(if one does not exist), and put all the invoices there.  If there is
+an error with the creation of a particular school's invoice, then a
+message is printed by the script.  This can happen when an ampersand
+(`&`) is in the school name, for example.
 
 The script will also create an `emails.html` file, which can be used
 to send emails to the contact email listed in the CSV file.  It adds a
@@ -139,6 +141,24 @@ invoice, since that is not supported by the `mailto:` link in modern
 web browsers for security reasons.
 
 That's it!
+
+# Troubleshooting
+
+Here are some common errors run into:
+
+- The school name cannot have an ampersand in it, as that has a
+  special meaning in LaTeX; repalce them with 'and' instead.
+- Make sure both logo files are present and spelled correctly.
+- The `\bottomtext` in the config.tex needs to be correct LaTeX,
+  otherwise it will have problems building it.
+
+When the script cannot create a given invoice, it will state so.  To
+debug this, move the problematic invoice to the very end of the
+teaminfo.csv file.  Run the script again.  Since the last one is now
+the one that failed, the input files will be present as `invoice.tex`.
+Thus, you can run `pdflatex invoice.tex` and LaTeX will output the
+error message.
+
 
 # How the script works
 
@@ -159,3 +179,7 @@ The invoice.tex file is then LaTeX'ed into a PDF via: `pdflatex
 -halt-on-error invoice.pdf`.  Assuming it creates the file properly,
 that file is then moved into the `invoices/` sub-directory with the
 name specified in the teaminfo.csv file.
+
+The .gitignore file will prevent git from seeing any .pdf, .jpg, or
+.png images, so that a user can put those files in this directory (for
+the logos, etc.) and not have git think changes have been made.
