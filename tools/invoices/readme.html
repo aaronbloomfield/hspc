@@ -1,27 +1,67 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Contest Invoice Generation</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <link rel="stylesheet" href="../../markdown.css" type="text/css" />
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../../markdown.css" />
 </head>
 <body>
 <h1 id="contest-invoice-generation">Contest Invoice Generation</h1>
-<p><a href="../readme.html">Go up to the HSPC tools readme</a> (<a href="../readme.md">md</a>)</p>
-<p>This utility will generate invoices for the participating high schools. Given a CSV file in a given format, as well as some contest configuration, then the <code>./generate-invoices.tex</code> script will run <code>pdflatex</code> to create one invoice per high school. It will also create a list of <code>mailto:</code> links to quickly email the invoices.</p>
+<p><a href="../readme.html">Go up to the HSPC tools readme</a> (<a
+href="../readme.md">md</a>)</p>
+<p>This utility will generate invoices for the participating high
+schools. Given a CSV file in a given format, as well as some contest
+configuration, then the <code>./generate-invoices.tex</code> script will
+run <code>pdflatex</code> to create one invoice per high school. It will
+also create a list of <code>mailto:</code> links to quickly email the
+invoices.</p>
 <h2 id="installation">Installation</h2>
-<p>This tool was developed under Ubuntu 16.04. It requires that Python 3 be installed, as well as PDF LaTeX (and a few LaTeX packages).</p>
-<p>For Ubuntu, you will need to apt-get install the following packages: <code>pdflatex texlive-latex-extra python3</code>.</p>
-<p>One of the files installed by the <code>texlive-latex-extra</code> package is <code>invoice.sty</code> -- this file is used by this script. It has a bug (described <a href="https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843">here</a>), that requires a change to the <code>/usr/share/texlive/texmf-dist/tex/latex/invoice/invoice.sty</code> file. You can either run the patch provided on that web page, or maually edit the file as root or via <code>sudo</code> (replace the <code>\input{fp}</code> line with <code>\RequirePackage{fp}</code> line; this should be around line 150 in that file).</p>
+<p>This tool was developed under Ubuntu 16.04. It requires that Python 3
+be installed, as well as PDF LaTeX (and a few LaTeX packages).</p>
+<p>For Ubuntu, you will need to apt-get install the following packages:
+<code>pdflatex texlive-latex-extra python3</code>.</p>
+<p>One of the files installed by the <code>texlive-latex-extra</code>
+package is <code>invoice.sty</code> – this file is used by this script.
+It has a bug (described <a
+href="https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1324843">here</a>),
+that requires a change to the
+<code>/usr/share/texlive/texmf-dist/tex/latex/invoice/invoice.sty</code>
+file. You can either run the patch provided on that web page, or maually
+edit the file as root or via <code>sudo</code> (replace the
+<code>\input{fp}</code> line with <code>\RequirePackage{fp}</code> line;
+this should be around line 150 in that file).</p>
 <h2 id="configuration">Configuration</h2>
-<p>There are two files that are needed to be configured for this script to run.</p>
+<p>There are two files that are needed to be configured for this script
+to run.</p>
 <h3 id="logos">Logos</h3>
-<p>This script assumes that there are two logos to put at the top of each invoice. Tyipcally, an institution logo and a contest logo are used. You can use a blank (white) image if you do not want to use the logos. They can be in PDF, JPEG, or PNG format. We'll call them <code>left-logo.pdf</code> and <code>right-logo.png</code>, below.</p>
+<p>This script assumes that there are two logos to put at the top of
+each invoice. Tyipcally, an institution logo and a contest logo are
+used. You can use a blank (white) image if you do not want to use the
+logos. They can be in PDF, JPEG, or PNG format. We’ll call them
+<code>left-logo.pdf</code> and <code>right-logo.png</code>, below.</p>
 <h3 id="config.tex">config.tex</h3>
-<p>The first is a configuration file for the contest. The file is stored as <code>config.tex.template</code>, and should be copied to <code>config.tex</code>. The file contents are as follows:</p>
+<p>The first is a configuration file for the contest. The file is stored
+as <code>config.tex.template</code>, and should be copied to
+<code>config.tex</code>. The file contents are as follows:</p>
 <pre><code>\def\contestname{First Annual High School Programming Contest}
 \def\contestlocation{the University of Antartica}
 \def\leftlogo{left-logo.pdf}
@@ -40,50 +80,113 @@
 &amp; Anytown, Anycountry, ZIPCODE \\
 \end{tabular}
 }</code></pre>
-<p>This file is LaTeX, and all values have to go in curly brackets. The fields are:</p>
+<p>This file is LaTeX, and all values have to go in curly brackets. The
+fields are:</p>
 <ul>
 <li><strong>\contestname:</strong> the name of the contest.</li>
 <li><strong>\contestlocation:</strong> the name of the institution.</li>
-<li><strong>\leftlogo:</strong> the logo that goes on the left side of the header.</li>
-<li><strong>\rightlogo:</strong> the logo that goes on the right side of the header.</li>
-<li><strong>\costperteam:</strong> how much team registration costs.</li>
-<li><strong>\currency:</strong> the currency used: {USD} % USD, Euro, RMB, etc.; see <a href="http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf">here</a> for other options.</li>
-<li><strong>\bottomtext:</strong> any text that should go at the bottom of the invoice. This is LaTeX code, and should be formatted properly. In the example above, a table is defined (from the <code>\begin{tabular}{cl}</code> line to the <code>\end{tabular}</code> line), but it can be any format. Be sure to end this with the closing curly bracket (the last line of the sample file).</li>
+<li><strong>\leftlogo:</strong> the logo that goes on the left side of
+the header.</li>
+<li><strong>\rightlogo:</strong> the logo that goes on the right side of
+the header.</li>
+<li><strong>\costperteam:</strong> how much team registration
+costs.</li>
+<li><strong>\currency:</strong> the currency used: {USD} % USD, Euro,
+RMB, etc.; see <a
+href="http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf">here</a>
+for other options.</li>
+<li><strong>\bottomtext:</strong> any text that should go at the bottom
+of the invoice. This is LaTeX code, and should be formatted properly. In
+the example above, a table is defined (from the
+<code>\begin{tabular}{cl}</code> line to the <code>\end{tabular}</code>
+line), but it can be any format. Be sure to end this with the closing
+curly bracket (the last line of the sample file).</li>
 </ul>
 <h3 id="teaminfo.csv">teaminfo.csv</h3>
-<p>This file is a CSV of the schools. The CSV file has the following fields:</p>
+<p>This file is a CSV of the schools. The CSV file has the following
+fields:</p>
 <ul>
-<li><strong>School name</strong>: The name of the participating school. Spaces are fine, but ber careful about including characters that have meanings in LaTeX (an ampersand (<code>&amp;</code>)is a common one).</li>
-<li><strong>Output file name</strong>: the file name that the invoice should be saved to. If left blank, the output name will be based on the school name (with all spaces and punctuation removed and a '.pdf' extension).</li>
-<li><strong>Contact email</strong>: the email for the invoice to be sent to. This script creates a series of <code>mailto:</code> links to make sending the emails quicker -- it does NOT send the emails automatically.</li>
-<li><strong>Payment received</strong>: any amount that has already been paid, as a number (float or integer) -- if zero, then the &quot;payment received&quot; line will not be printed on the invoice.</li>
-<li><strong>Number of teams</strong>: how many teams are participating from that school.</li>
-<li><strong>Team 1</strong>, <strong>Team 2</strong>, ..., <strong>Team <span class="math inline"><em>n</em></span></strong>: the team names. You can have as many columns here as necessary -- the script will read as many team columns as the number provided in the <em>number of teams</em> field.</li>
+<li><strong>School name</strong>: The name of the participating school.
+Spaces are fine, but ber careful about including characters that have
+meanings in LaTeX (an ampersand (<code>&amp;</code>)is a common
+one).</li>
+<li><strong>Output file name</strong>: the file name that the invoice
+should be saved to. If left blank, the output name will be based on the
+school name (with all spaces and punctuation removed and a ‘.pdf’
+extension).</li>
+<li><strong>Contact email</strong>: the email for the invoice to be sent
+to. This script creates a series of <code>mailto:</code> links to make
+sending the emails quicker – it does NOT send the emails
+automatically.</li>
+<li><strong>Payment received</strong>: any amount that has already been
+paid, as a number (float or integer) – if zero, then the “payment
+received” line will not be printed on the invoice.</li>
+<li><strong>Number of teams</strong>: how many teams are participating
+from that school.</li>
+<li><strong>Team 1</strong>, <strong>Team 2</strong>, …, <strong>Team
+<span class="math inline"><em>n</em></span></strong>: the team names.
+You can have as many columns here as necessary – the script will read as
+many team columns as the number provided in the <em>number of teams</em>
+field.</li>
 </ul>
-<p>A sample CSV file is provided as <code>teaminfo.csv.template</code>, and is shown below.</p>
+<p>A sample CSV file is provided as <code>teaminfo.csv.template</code>,
+and is shown below.</p>
 <pre><code>School name,Output file name (can be blank),Contact email,Payment received,Number of teams,Team 1,Team 2,Team 3,Team 4,... to team n
 Generic High School,generic.pdf,nobody@nowhere.com,80,3,Foo,Bar,Qux,,
 Random High School,random.pdf,null@nowhere.com,0,2,Thud,Grunt,,,</code></pre>
 <h1 id="running-the-script">Running the script</h1>
-<p>To run the script, just enter: <code>python3 generate-invoices.py</code>. Or you can run <code>make</code>, which does the same thing. You can supply a command-line parameter of the CSV file (if running it via the first method), but if you do not, then it assumes that it should look for <code>teaminfo.csv</code>. The script will create an <code>invoices/</code> sub-directory (if one does not exist), and put all the invoices there. If there is an error with the creation of a particular school's invoice, then a message is printed by the script. This can happen when an ampersand (<code>&amp;</code>) is in the school name, for example.</p>
-<p>The script will also create an <code>emails.html</code> file, which can be used to send emails to the contact email listed in the CSV file. It adds a subject and body, which can be customized by editing the <code>generate-invoices.py</code> script. It does not automatically attach the invoice, since that is not supported by the <code>mailto:</code> link in modern web browsers for security reasons.</p>
-<p>That's it!</p>
+<p>To run the script, just enter:
+<code>python3 generate-invoices.py</code>. Or you can run
+<code>make</code>, which does the same thing. You can supply a
+command-line parameter of the CSV file (if running it via the first
+method), but if you do not, then it assumes that it should look for
+<code>teaminfo.csv</code>. The script will create an
+<code>invoices/</code> sub-directory (if one does not exist), and put
+all the invoices there. If there is an error with the creation of a
+particular school’s invoice, then a message is printed by the script.
+This can happen when an ampersand (<code>&amp;</code>) is in the school
+name, for example.</p>
+<p>The script will also create an <code>emails.html</code> file, which
+can be used to send emails to the contact email listed in the CSV file.
+It adds a subject and body, which can be customized by editing the
+<code>generate-invoices.py</code> script. It does not automatically
+attach the invoice, since that is not supported by the
+<code>mailto:</code> link in modern web browsers for security
+reasons.</p>
+<p>That’s it!</p>
 <h1 id="troubleshooting">Troubleshooting</h1>
 <p>Here are some common errors run into:</p>
 <ul>
-<li>The school name cannot have an ampersand in it, as that has a special meaning in LaTeX; repalce them with 'and' instead.</li>
+<li>The school name cannot have an ampersand in it, as that has a
+special meaning in LaTeX; repalce them with ‘and’ instead.</li>
 <li>Make sure both logo files are present and spelled correctly.</li>
-<li>The <code>\bottomtext</code> in the config.tex needs to be correct LaTeX, otherwise it will have problems building it.</li>
+<li>The <code>\bottomtext</code> in the config.tex needs to be correct
+LaTeX, otherwise it will have problems building it.</li>
 </ul>
-<p>When the script cannot create a given invoice, it will state so. To debug this, move the problematic invoice to the very end of the teaminfo.csv file. Run the script again. Since the last one is now the one that failed, the input files will be present as <code>invoice.tex</code>. Thus, you can run <code>pdflatex invoice.tex</code> and LaTeX will output the error message.</p>
+<p>When the script cannot create a given invoice, it will state so. To
+debug this, move the problematic invoice to the very end of the
+teaminfo.csv file. Run the script again. Since the last one is now the
+one that failed, the input files will be present as
+<code>invoice.tex</code>. Thus, you can run
+<code>pdflatex invoice.tex</code> and LaTeX will output the error
+message.</p>
 <h1 id="how-the-script-works">How the script works</h1>
-<p>The script will read in the <code>teaminfo.csv</code> file, and create a temporary teaminfo.tex file for each school. That file might look like the following:</p>
+<p>The script will read in the <code>teaminfo.csv</code> file, and
+create a temporary teaminfo.tex file for each school. That file might
+look like the following:</p>
 <pre><code>\schoolname{Generic High School}
 \amountpaid{80}
 \addteam{Foo}
 \addteam{Bar}
 \addteam{Qux}</code></pre>
-<p>The commands shown in that file are defined in the invoice.tex file. The invoice.tex file is then LaTeX'ed into a PDF via: <code>pdflatex -halt-on-error invoice.pdf</code>. Assuming it creates the file properly, that file is then moved into the <code>invoices/</code> sub-directory with the name specified in the teaminfo.csv file.</p>
-<p>The .gitignore file will prevent git from seeing any .pdf, .jpg, or .png images, so that a user can put those files in this directory (for the logos, etc.) and not have git think changes have been made.</p>
+<p>The commands shown in that file are defined in the invoice.tex file.
+The invoice.tex file is then LaTeX’ed into a PDF via:
+<code>pdflatex -halt-on-error invoice.pdf</code>. Assuming it creates
+the file properly, that file is then moved into the
+<code>invoices/</code> sub-directory with the name specified in the
+teaminfo.csv file.</p>
+<p>The .gitignore file will prevent git from seeing any .pdf, .jpg, or
+.png images, so that a user can put those files in this directory (for
+the logos, etc.) and not have git think changes have been made.</p>
 </body>
 </html>
