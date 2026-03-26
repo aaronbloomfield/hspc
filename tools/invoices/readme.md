@@ -147,7 +147,7 @@ That's it!
 Here are some common errors run into:
 
 - The school name cannot have an ampersand in it, as that has a
-  special meaning in LaTeX; repalce them with 'and' instead.
+  special meaning in LaTeX; replace them with 'and' instead.
 - Make sure both logo files are present and spelled correctly.
 - The `\bottomtext` in the config.tex needs to be correct LaTeX,
   otherwise it will have problems building it.

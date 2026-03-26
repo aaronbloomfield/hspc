@@ -27,7 +27,7 @@ workshop.
 There are a number of parts to this repo
 
 - [Workshop slides](slides.html#/): the slides used in the workshop presentation given in the SIGCSE 2018 workshop given on February 23, 2018
-- [HSPC Guide](guide/hspcguide.pdf): a text document (from the LaTeX source in the [guilde/](guide/) directory) that discusses how to run such a contest
+- [HSPC Guide](guide/hspcguide.pdf): a text document (from the LaTeX source in the [guide/](guide/) directory) that discusses how to run such a contest
     - This guide includes an example VirtualBox setup
 - [Tools](tools/readme.html) ([md](tools/readme.md)): a series of tools (mostly bash scripts) to help handle various aspects of contest coordination
     - Some are ready, and the others will be ready soon (spring 2018)

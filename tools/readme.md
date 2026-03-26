@@ -24,6 +24,6 @@ soon (spring 2018):
   placement)
 - A tool to generate labels for each team
 - A tool to generate cover pages for each team
-- A tool to generate the PC$^2$ configration file for the various teams
+- A tool to generate the PC$^2$ configuration file for the various teams
 - A tool to generate the nametags for the contestants
 - A tool to manage the printing of documents during the contest
