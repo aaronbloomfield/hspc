@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Contest Invoice Generation</title>
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
@@ -68,7 +70,7 @@ as <code>config.tex.template</code>, and should be copied to
 \def\leftlogo{left-logo.pdf}
 \def\rightlogo{right-logo.png}
 \def\costperteam{40.00}
-\def\currency{USD} % USD, Euro, RMB, etc.; see http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf for details
+\def\currency{USD} % USD, Euro, RMB, etc.
 
 \def\bottomtext{
 \begin{tabular}{cl}
@@ -93,9 +95,7 @@ the header.</li>
 <li><strong>\costperteam:</strong> how much team registration
 costs.</li>
 <li><strong>\currency:</strong> the currency used: {USD} % USD, Euro,
-RMB, etc.; see <a
-href="http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf">here</a>
-for other options.</li>
+RMB, etc.</li>
 <li><strong>\bottomtext:</strong> any text that should go at the bottom
 of the invoice. This is LaTeX code, and should be formatted properly. In
 the example above, a table is defined (from the

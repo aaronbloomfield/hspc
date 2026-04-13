@@ -55,7 +55,7 @@ file contents are as follows:
 \def\leftlogo{left-logo.pdf}
 \def\rightlogo{right-logo.png}
 \def\costperteam{40.00}
-\def\currency{USD} % USD, Euro, RMB, etc.; see http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf for details
+\def\currency{USD} % USD, Euro, RMB, etc.
 
 \def\bottomtext{
 \begin{tabular}{cl}
@@ -77,9 +77,7 @@ This file is LaTeX, and all values have to go in curly brackets.  The fields are
 - **\\leftlogo:** the logo that goes on the left side of the header.
 - **\\rightlogo:** the logo that goes on the right side of the header.
 - **\\costperteam:** how much team registration costs.
-- **\\currency:** the currency used: {USD} % USD, Euro, RMB, etc.; see
-  [here](http://ctan.math.washington.edu/tex-archive/macros/latex/contrib/invoice/doc/invoice.pdf)
-  for other options.
+- **\\currency:** the currency used: {USD} % USD, Euro, RMB, etc.
 - **\\bottomtext:** any text that should go at the bottom of the
   invoice.  This is LaTeX code, and should be formatted properly.  In
   the example above, a table is defined (from the
